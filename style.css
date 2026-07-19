@@ -1,0 +1,1755 @@
+/* ==========================================================================
+   Clínica do Bem — Landing Page
+   Fontes: Plus Jakarta Sans (headings) / Manrope (corpo de texto)
+   Carregadas via <link> no <head> de cada página (não @import: um @import
+   dentro do CSS só é descoberto depois que o próprio CSS termina de baixar
+   e ser parseado, adicionando uma volta de rede sequencial que o preload
+   scanner do navegador evitaria com <link>).
+   ========================================================================== */
+
+:root {
+  --pink: #FD6498;
+  --pink-dark: #C8215A;
+  --pink-tint: #FFE7EF;
+  --teal: #7FCCB8;
+  --teal-tint: #E6F6F1;
+  --dark: #232323;
+  --gray-text: #525C68;
+  --border: #E9EDF2;
+  --bg-soft: #F8F9FB;
+  /* Fundo único da página — branco levemente aquecido (chroma quase zero,
+     inclinado para o rosa da marca, não para um "cream" genérico) usado por
+     toda seção que não seja um dos 3 momentos especiais preservados: Hero
+     (glow atmosférico), CTA intermediária (rosa sólido) e rodapé (escuro). */
+  --bg-base: #FFFCFA;
+  /* Sombra padrão para cards em repouso — antes os cards se apoiavam no
+     contraste entre seu branco e o fundo tingido da seção ao redor; com
+     todas as seções niveladas em --bg-base, a sombra rasa passa a ser o
+     que separa visualmente o card da página. */
+  --shadow-card: 0 4px 20px rgba(35, 35, 35, 0.05);
+  --shadow-card-hover: 0 10px 32px rgba(35, 35, 35, 0.09);
+  --font-heading: 'Plus Jakarta Sans', sans-serif;
+  --font-body: 'Manrope', sans-serif;
+  --ease: cubic-bezier(.22, .68, 0, 1);
+  /* Easing/duração do scroll reveal — valores próprios (não --ease) porque
+     esse gesto é mais lento e mais "solto" que o resto da interface. */
+  --ease-reveal: cubic-bezier(0.25, 1, 0.5, 1);
+  --duration-reveal: 400ms;
+  /* Easing do preenchimento circular dos botões (ver .btn-pink::before) —
+     não reaproveita --ease-reveal nem --ease porque as duas "disparam"
+     quase todo o movimento logo nos primeiros instantes (ótimo pra um
+     deslize pequeno de 24px ou um scale(0.98), ruim pra um preenchimento
+     do tamanho do botão inteiro: o crescimento ficava rápido demais pra
+     perceber). easeInOutCubic não acelera de cara — o raio cresce devagar
+     desde o primeiro frame, então dá pra acompanhar a bolha se expandindo
+     ao longo de toda a duração, em vez de já nascer quase no tamanho
+     final. Duração maior (0.9s) e curva própria só na entrada; a saída
+     usa --ease (a mesma curva "seca" das outras interações de botão) e
+     fica mais rápida de propósito — entra devagar, sai rápido. */
+  --ease-btn-fill-in: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* ---------- Escala de breakpoints ----------
+   CSS não permite variáveis dentro de @media, então os valores abaixo são
+   fixos — mas todo novo breakpoint deve reutilizar um destes, não inventar
+   um valor próximo (ex: 580px). Cada um tem um papel fixo:
+     600px  — telefone pequeno: grids de cards viram 1 coluna
+     640px  — telefone/tablet pequeno: testimonial-card vira 2 colunas
+     768px  — tablet: navegação vira hambúrguer E todos os colapsos de grid
+              principais (localização, footer) acontecem juntos — um tablet
+              de ~800px não deve ver o menu hambúrguer ao lado de grids
+              ainda em largura de desktop.
+     1024px — desktop: grids ganham a 3ª coluna
+   (900px existiu como um degrau "tablet largo" à parte para localização/
+   footer; foi unificado ao 768px porque a janela 768–900px combinava o
+   menu já mobile com grids ainda em duas colunas — dois níveis de UI
+   diferentes na mesma tela.) */
+
+[data-lucide],
+.icon-brand {
+  flex-shrink: 0;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  overflow-x: hidden;
+  font-family: var(--font-body);
+  color: var(--dark);
+  background: var(--bg-base);
+}
+
+img {
+  max-width: 100%;
+}
+
+a {
+  cursor: pointer;
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.container-narrow {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Shared elements ---------------------------------------------------- */
+
+.badge {
+  display: inline-block;
+  padding: 6px 16px;
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  margin-bottom: 20px;
+}
+
+.badge-pink {
+  background: rgba(253, 100, 152, 0.1);
+  color: var(--pink);
+}
+
+.badge-teal {
+  background: rgba(127, 204, 184, 0.12);
+  color: var(--teal);
+}
+
+.text-pink {
+  color: var(--pink);
+}
+
+/* Deliberadamente menor que .hero-title (clamp 32-52px) — a página tem uma
+   única afirmação "grande" (o H1) e os títulos de seção devem ler como um
+   degrau abaixo dela, não como quase o mesmo tamanho repetido 6 vezes. */
+.section-title {
+  font-family: var(--font-heading);
+  font-size: clamp(26px, 2.6vw, 38px);
+  font-weight: 700;
+  color: var(--dark);
+  line-height: 1.25;
+  letter-spacing: -0.3px;
+  margin-bottom: 28px;
+}
+
+.section-title-center {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.section-desc {
+  font-size: 16px;
+  color: var(--gray-text);
+  max-width: 520px;
+  margin: 16px auto 0;
+  line-height: 1.75;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 64px;
+}
+
+.btn-pink {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 32px;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+  border: none;
+  box-shadow: none;
+  transition: transform 0.15s ease;
+  background: var(--pink);
+  color: #fff;
+}
+
+.btn-pink:hover {
+  transform: scale(0.98);
+}
+
+/* Usado dentro da faixa .cta-section (fundo rosa sólido) — mesmo formato e
+   gesto de hover dos outros botões, só invertendo as cores. */
+.btn-white {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 32px;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+  border: none;
+  box-shadow: none;
+  transition: transform 0.15s ease, color 0.3s var(--ease);
+  background: #ffffff;
+  color: var(--pink);
+}
+
+.btn-white:hover {
+  transform: scale(0.98);
+  color: #fff;
+}
+
+/* ---------- Preenchimento circular no hover (micro-interação) ----------
+   A cor de repouso de cada botão (rosa, ou branco no .btn-white) nunca
+   muda — o que entra no hover é este ::before por cima, um círculo
+   (clip-path) que nasce raio 0 no ponto exato onde o cursor entrou e se
+   expande até cobrir o botão inteiro, na cor teal da própria identidade
+   (--teal, não uma variante escura inventada). --btn-x/--btn-y são
+   gravados pelo JS (script.js) em mouseenter (ponto de entrada) e
+   mouseleave (ponto de saída) — por isso o preenchimento também recolhe
+   na direção de onde o mouse foi embora, em vez de sempre voltar pro
+   centro.
+   Gatilho é .is-filling, não :hover — de propósito. Se a origem do
+   gradiente ainda dependesse de :hover puro, o navegador já considera
+   :hover ativo no mesmo instante em que o mouseenter dispara, então às
+   vezes a transição pegava --btn-x/--btn-y ainda com o valor da
+   INTERAÇÃO ANTERIOR como ponto de partida (só a posição de destino já
+   vinha atualizada) — o centro do círculo "viajava" da entrada anterior
+   até a nova a cada hover, em vez de nascer raio 0 já no lugar certo.
+   script.js atualiza a variável, força um reflow (leitura de
+   offsetWidth) pra o navegador "commitar" esse valor num frame renderizado
+   de verdade, e só then adiciona .is-filling — garante que raio 0% já
+   nasce na posição nova, sem herdar a antiga.
+   Entrada e saída têm timing propositalmente diferentes: a entrada usa
+   0.9s + --ease-btn-fill-in pra bolha crescer devagar e dar tempo do olho
+   acompanhar; a saída (a regra base, abaixo) usa 0.35s + --ease, mais
+   rápida de propósito — assim que o mouse sai, o botão volta ao normal
+   sem se arrastar.
+   border-radius:inherit no ::before é o que faz o preenchimento respeitar
+   o formato pill quando o círculo já ultrapassou os cantos do botão —
+   sem isso, a 150% de raio ele mostraria os cantos quadrados da própria
+   caixa do ::before por baixo do clip-path circular.
+   isolation:isolate no botão + z-index:-1 no ::before garantem que o
+   preenchimento fique atrás do texto/ícone sem precisar dar z-index
+   neles: dentro do contexto de empilhamento isolado, conteúdo com
+   z-index negativo sempre pinta abaixo do conteúdo em fluxo normal
+   (texto), qualquer que seja a ordem no HTML. */
+.btn-pink::before,
+.btn-white::before,
+.btn-outline::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--teal);
+  clip-path: circle(0% at var(--btn-x, 50%) var(--btn-y, 50%));
+  transition: clip-path 0.35s var(--ease);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.btn-pink.is-filling::before,
+.btn-white.is-filling::before,
+.btn-outline.is-filling::before {
+  clip-path: circle(150% at var(--btn-x, 50%) var(--btn-y, 50%));
+  transition: clip-path 0.9s var(--ease-btn-fill-in);
+}
+
+/* .btn-outline é o único botão com a animação invertida: nasce verde
+   (--teal) em repouso, e o preenchimento do hover é --pink — o oposto
+   dos outros dois botões (rosa em repouso, verde no hover). */
+.btn-outline::before {
+  background: var(--pink);
+}
+
+/* ---------- Foco de teclado ----------
+   Nenhum elemento interativo tinha um anel de foco próprio; todos dependiam
+   do outline padrão do navegador, não verificado contra esta paleta. Regra
+   única e global (--pink-dark garante 3:1+ contra qualquer superfície clara
+   do site) cobre links, botões, o menu e o accordion do FAQ.
+   Exceção: dentro do rodapé escuro, --pink-dark cairia para 3.67:1 contra o
+   fundo quase preto, então usamos o --pink base, que já mede 6.30:1 ali. */
+:focus-visible {
+  outline: 2px solid var(--pink-dark);
+  outline-offset: 3px;
+}
+
+.footer :focus-visible {
+  outline-color: var(--pink);
+}
+
+/* ---------- Link "pular para o conteúdo" ----------
+   Fora da tela por padrão (top negativo, não display:none, para continuar
+   focável por Tab) e só aparece ao receber foco de teclado — a única forma
+   de um usuário de teclado pular o header fixo sem tabular por 6 links de
+   navegação e o CTA a cada carregamento de página. z-index acima do header
+   (100) e do botão flutuante do WhatsApp (999). */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 16px;
+  z-index: 1000;
+  padding: 12px 20px;
+  background: var(--pink-dark);
+  color: #fff;
+  font-weight: 700;
+  font-size: 14px;
+  text-decoration: none;
+  border-radius: 0 0 12px 12px;
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* ==========================================================================
+   Scroll Reveal
+   ========================================================================== */
+
+/* Estado padrão: totalmente visível. Só some (abaixo, dentro da media query)
+   quando o navegador confirma que animação é permitida — se o JS falhar ao
+   carregar, o conteúdo continua visível em vez de ficar preso em opacity:0. */
+.reveal {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  /* script.js adiciona esta classe via IntersectionObserver na primeira vez
+     que o elemento cruza 15% de área visível, depois para de observá-lo —
+     revela uma vez só, nunca esconde de novo ao rolar para cima.
+     Usa animation (não transition): cards como .servico-card já têm sua
+     própria transition para o hover (transform + box-shadow) — como
+     as duas regras têm a mesma especificidade, a transition definida mais
+     abaixo no arquivo (a do card) vencia a cascata e substituía a transition
+     do reveal por inteiro, inclusive vazando o transition-delay do stagger
+     para o hover (cards com --i maior ficavam lentos pra subir no mouse).
+     animation-* é uma propriedade CSS separada de transition-*, então as
+     duas convivem sem disputa: o reveal roda a animação uma vez ao entrar
+     na tela; o hover, depois, usa a transition do próprio card normalmente. */
+  .reveal.is-visible {
+    animation: reveal-in var(--duration-reveal) var(--ease-reveal) both;
+  }
+
+  /* Escalona os cards dentro de um grid .reveal-stagger (serviços, passos,
+     cards de localização) usando o índice --i já definido inline em cada
+     card no HTML — calc() em vez de :nth-child fixo porque alguns desses
+     grids passam de 4 itens (6 no grupo "Saúde da Mulher" de Serviços). */
+  .reveal-stagger > .reveal.is-visible {
+    animation-delay: calc(var(--i, 0) * 90ms);
+  }
+}
+
+@keyframes reveal-in {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ==========================================================================
+   Header
+   ========================================================================== */
+
+/* ---------- Header: transparente -> flutuante ----------
+   No carregamento o header não tem fundo próprio: fica transparente para
+   o gradiente do Hero (quase branco) aparecer por trás dele, lendo como
+   uma única composição. O "vidro" (fundo translúcido + blur + sombra +
+   borda) vive num ::before separado, começando invisível — assim a
+   troca ao rolar anima opacity + transform + background juntos, sem
+   afetar o layout do conteúdo (.header-inner) por cima dele.
+   O contraste do texto (--dark / --gray-text) já é alto o bastante contra
+   o gradiente quase-branco do Hero, então nenhum ajuste de cor é
+   necessário no estado transparente. */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: transparent;
+}
+
+.header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 8px 30px rgba(35, 35, 35, 0.06);
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: opacity 0.45s var(--ease), transform 0.45s var(--ease);
+}
+
+.header.scrolled::before {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 88px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-mark {
+  height: 28px;
+  width: auto;
+  flex-shrink: 0;
+}
+
+.logo-text {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 20px;
+  color: var(--dark);
+  letter-spacing: -0.3px;
+}
+
+.nav-desktop {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.nav-desktop a {
+  position: relative;
+  text-decoration: none;
+  color: var(--gray-text);
+  font-size: 14px;
+  font-weight: 500;
+  padding: 6px 0;
+  transition: color 0.25s;
+}
+
+.nav-desktop a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--pink);
+  border-radius: 2px;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .35s var(--ease);
+}
+
+.nav-desktop a:hover,
+.nav-desktop a.is-active {
+  color: var(--pink);
+}
+
+/* .is-active (aplicado via scrollspy em script.js) usa o mesmo sublinhado
+   do hover — a seção que está passando no meio da tela deve ler como se o
+   link tivesse sido clicado, não como um estado visual à parte.
+   scaleX (não width) para o preenchimento não disparar layout/reflow —
+   só transform+paint, mesmo efeito visual de "crescer da esquerda". */
+.nav-desktop a:hover::after,
+.nav-desktop a.is-active::after {
+  transform: scaleX(1);
+}
+
+.btn-nav {
+  padding: 10px 22px !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  white-space: nowrap;
+}
+
+.menu-toggle {
+  display: none;
+  position: relative;
+  background: none;
+  border: none;
+  padding: 8px;
+  width: 44px;
+  height: 44px;
+  color: var(--dark);
+}
+
+.menu-toggle .icon-menu,
+.menu-toggle .icon-close {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(0deg);
+  opacity: 1;
+  transition: opacity 0.25s var(--ease), transform 0.25s var(--ease);
+}
+
+.menu-toggle .icon-close {
+  opacity: 0;
+  transform: translate(-50%, -50%) rotate(-90deg);
+}
+
+.menu-toggle[aria-expanded="true"] .icon-menu {
+  opacity: 0;
+  transform: translate(-50%, -50%) rotate(90deg);
+}
+
+.menu-toggle[aria-expanded="true"] .icon-close {
+  opacity: 1;
+  transform: translate(-50%, -50%) rotate(0deg);
+}
+
+.mobile-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-top: 1px solid var(--border);
+  padding: 16px 24px 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-16px);
+  transition: opacity 0.4s var(--ease), transform 0.4s var(--ease), visibility 0.4s;
+}
+
+.mobile-menu.open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.mobile-menu a {
+  display: block;
+  padding: 12px 0;
+  text-decoration: none;
+  color: var(--dark);
+  font-size: 16px;
+  font-weight: 500;
+  border-bottom: 1px solid var(--bg-soft);
+}
+
+.btn-mobile-cta {
+  display: flex !important;
+  justify-content: center;
+  margin-top: 16px;
+  padding: 14px 22px !important;
+  font-size: 15px !important;
+  text-align: center;
+  border-bottom: none !important;
+  color: #fff !important;
+}
+
+/* ==========================================================================
+   Hero
+   ========================================================================== */
+
+.hero {
+  /* 188px top = 88px de espaço fixo do header + 100px, o mesmo padding
+     vertical usado em "Sobre" e nas demais seções do site. */
+  padding: 188px 24px 100px;
+  /* Mesmo --bg-base do resto da página, liso — os antigos círculos radiais
+     rosa/verde nos cantos foram removidos: em vez de se misturar a um
+     gradiente de fundo (como antes), sobre o --bg-base liso eles liam como
+     duas manchas de cor isoladas, exatamente o efeito "bloco" que a página
+     está evitando. */
+  background: var(--bg-base);
+  position: relative;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-title {
+  font-family: var(--font-heading);
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 800;
+  color: var(--dark);
+  line-height: 1.2;
+  margin-bottom: 20px;
+  letter-spacing: -0.5px;
+}
+
+.hero-desc {
+  font-size: 17px;
+  color: var(--gray-text);
+  line-height: 1.75;
+  margin-bottom: 32px;
+  max-width: 520px;
+}
+
+.benefits-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 40px;
+}
+
+.benefit-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.benefit-check {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--teal);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.benefit-label {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--dark);
+}
+
+.hero-visual {
+  position: relative;
+}
+
+/* Shared photo frame — used by Hero and Sobre for visual consistency */
+
+.hero-photo-frame {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  max-width: 440px;
+  margin: 0 auto;
+  border-radius: 28px;
+  background: linear-gradient(160deg, var(--pink-tint), var(--teal-tint));
+  border: 1px solid var(--border);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.hero-photo-frame::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 15%, rgba(253, 100, 152, .20), transparent 45%),
+    radial-gradient(circle at 85% 85%, rgba(127, 204, 184, .28), transparent 45%);
+}
+
+.hero-photo-frame.sobre-frame {
+  max-width: 400px;
+}
+
+.hero-photo {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.hero-photo-frame.sobre-frame .hero-photo {
+  object-position: center 15%;
+}
+
+/* Sem sombra — a borda usa currentColor, então herda automaticamente o
+   rosa/teal já definido em .float-card-1/-2 (a mesma cor do ícone), sem
+   precisar de uma regra de borda separada por variante.
+   Flutuação vertical sutil e contínua — .float-card-2 entra com metade do
+   ciclo já percorrido (animation-delay negativo) pra não subir/descer em
+   sincronia com o .float-card-1, o que pareceria mecânico. A regra global
+   de prefers-reduced-motion no fim do arquivo já zera esta animação. */
+.float-card {
+  position: absolute;
+  background: #fff;
+  border-radius: 18px;
+  border: 1.5px solid currentColor;
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 2;
+  animation: float-bob 4.5s ease-in-out infinite;
+}
+
+/* Ícones da Lucide são só stroke por padrão (fill="none" no SVG) — o
+   Lucide não tem variante preenchida na biblioteca, então forçamos o
+   preenchimento aqui via CSS (sobrepõe o atributo fill do SVG). Só faz
+   sentido para ícones de path único e fechado como "heart"/"shield"; um
+   ícone composto (ex: shield-check, com o check em path separado) ficaria
+   com o traço preso dentro do preenchimento — por isso o card 2 usa
+   "shield" puro em vez de "shield-check". */
+.float-card svg {
+  fill: currentColor;
+}
+
+.float-card strong {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 15px;
+  color: var(--dark);
+}
+
+.float-card span {
+  font-size: 12.5px;
+  color: var(--gray-text);
+}
+
+.float-card-1 {
+  top: 8%;
+  left: -6%;
+  color: var(--pink);
+}
+
+.float-card-2 {
+  bottom: 6%;
+  right: -6%;
+  color: var(--teal);
+  animation-delay: -2.25s;
+}
+
+@keyframes float-bob {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@media (max-width: 768px) {
+  .float-card {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   Sobre
+   ========================================================================== */
+
+.sobre {
+  background: var(--bg-base);
+  padding: 100px 24px;
+}
+
+/* Split assimétrico (não 1fr/1fr) — a seção "Sobre" reutiliza o mesmo
+   .hero-photo-frame do Hero, então uma divisão desigual evita que a seção
+   pareça o mesmo módulo de layout simplesmente colado de novo. */
+.sobre-grid {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.sobre-visual {
+  position: relative;
+}
+
+.sobre-paragraphs {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.sobre-paragraphs p {
+  font-size: 16px;
+  color: var(--gray-text);
+  line-height: 1.75;
+}
+
+/* ==========================================================================
+   Serviços
+   ========================================================================== */
+
+.servicos {
+  background: var(--bg-base);
+  padding: 100px 24px;
+}
+
+.servicos-group {
+  margin-bottom: 48px;
+}
+
+.servicos-group:last-child {
+  margin-bottom: 0;
+}
+
+.servicos-group-title {
+  font-family: var(--font-heading);
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 24px;
+  padding-left: 14px;
+  border-left: 3px solid var(--pink);
+}
+
+.servicos-group-title-teal {
+  border-left-color: var(--teal);
+}
+
+.servicos-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+/* Antes o card se destacava só pelo contraste com o gradiente da seção;
+   com a seção nivelada em --bg-base, sombra rasa + leve elevação no
+   hover assumem esse papel (ver --shadow-card em :root). position:relative
+   é o que permite o .servico-badge (ver abaixo) se ancorar no canto do
+   card, mesmo nos que não têm badge. */
+.servico-card {
+  position: relative;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 32px 28px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-card);
+  transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease);
+}
+
+.servico-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-card-hover);
+}
+
+/* Borda com um toque de rosa (em vez do --border neutro) — o suficiente
+   pra reforçar visualmente que este card carrega um badge, sem mudar
+   sombra, tamanho ou padding em relação aos outros cards do grid. */
+.servico-card-featured {
+  border-color: rgba(253, 100, 152, 0.18);
+}
+
+/* Metade do badge fica pra fora do card (translateY(-50%) a partir de
+   top:0) — um "flag" discreto no canto, não um selo grande colado no
+   conteúdo. Não soma altura ao card: fica só um contorno de ~13px acima
+   da borda, com folga de sobra para o margin-bottom de 24px do título do
+   grupo de serviços acima. */
+.servico-badge {
+  position: absolute;
+  top: 0;
+  right: 28px;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 14px;
+  border-radius: 50px;
+  background: var(--pink);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(253, 100, 152, 0.35);
+  z-index: 1;
+}
+
+.servico-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: rgba(253, 100, 152, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--pink);
+  margin-bottom: 16px;
+}
+
+.servico-icon.teal {
+  background: rgba(127, 204, 184, 0.14);
+  color: var(--teal);
+}
+
+.servico-card h4 {
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 8px;
+  line-height: 1.35;
+}
+
+.servico-card p {
+  font-size: 14px;
+  color: var(--gray-text);
+  line-height: 1.65;
+}
+
+.servicos-cta {
+  text-align: center;
+  margin-top: 48px;
+}
+
+/* ==========================================================================
+   CTA Intermediária (faixa rosa)
+   ========================================================================== */
+
+/* Faixa sólida na cor de marca (estratégia "Drenched") — um momento de
+   contraste deliberado entre Serviços e Depoimentos, mesma lógica das
+   "glows" atmosféricas do Hero/CTA final, mas em branco translúcido, já
+   que aqui o fundo é o próprio rosa em vez de um fundo claro. */
+.cta-section {
+  background: var(--pink);
+  padding: 80px 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-section-glow {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(10px);
+}
+
+.cta-section-glow-1 {
+  width: 420px;
+  height: 420px;
+  top: -160px;
+  right: -120px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.18), transparent 70%);
+}
+
+.cta-section-glow-2 {
+  width: 360px;
+  height: 360px;
+  bottom: -170px;
+  left: -130px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.14), transparent 70%);
+}
+
+.cta-inner {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.cta-inner .section-title {
+  color: #ffffff;
+}
+
+.cta-inner .section-desc {
+  color: rgba(255, 255, 255, 0.85);
+  margin: 16px auto 40px;
+}
+
+/* O anel de foco padrão (--pink-dark) mede só 1.95:1 contra este fundo rosa
+   sólido — quase invisível. Troca pontual para --dark (5.58:1 aqui), igual
+   ao que o rodapé já faz para o próprio fundo escuro: o recurso de
+   acessibilidade continua funcional mesmo onde o --pink-dark padrão não
+   serve. */
+.cta-section :focus-visible {
+  outline-color: var(--dark);
+}
+
+/* ==========================================================================
+   Depoimentos
+   ========================================================================== */
+
+/* Bottom reduzido em relação ao padding-top (100px) — depois da remoção da
+   seção "Como Funciona", Depoimentos passou a encostar direto no FAQ; esse
+   respiro mais justo (reaproveita o rung "dense" de 80px já documentado,
+   não um valor novo) deixa a transição mais compacta sem tocar em nada
+   da seção FAQ em si. */
+.depoimentos {
+  background: var(--bg-base);
+  padding: 100px 24px 80px;
+}
+
+.badge-rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.badge-rating-stars {
+  font-size: 12px;
+  letter-spacing: 2px;
+}
+
+/* ---------- Parede de depoimentos ----------
+   Uma única fileira horizontal em loop contínuo, só CSS (sem JS, sem
+   arraste, sem paginação), rolando da esquerda para a direita.
+   .testimonial-row-track contém o conjunto completo dos 6 depoimentos
+   reais duas vezes (a segunda cópia com aria-hidden) para que um
+   translateX(-50%) feche o ciclo exatamente na largura de um conjunto,
+   sem nenhum salto visível. 90s de duração para uma passagem completa —
+   deliberadamente lento e calmo. */
+.testimonial-wall {
+  margin-top: 52px;
+}
+
+.testimonial-row {
+  overflow: hidden;
+}
+
+.testimonial-row-track {
+  display: flex;
+  width: max-content;
+  gap: 24px;
+  animation: wall-scroll-ltr 90s linear infinite;
+}
+
+.testimonial-row:hover .testimonial-row-track {
+  animation-play-state: paused;
+}
+
+@keyframes wall-scroll-ltr {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .testimonial-row-track {
+    animation: none;
+  }
+}
+
+/* Altura fixa e idêntica em todos os cards (nenhuma variação tipo
+   masonry) — a folga vem de textos deliberadamente condensados
+   (ver comentário no HTML), não de encolher fonte/espaçamento nem de
+   cortar o texto. Ritmo vertical apertado (padding superior/inferior e
+   o espaço antes do rodapé, ambos reduzidos) para o card ficar mais
+   compacto sem tocar no padding lateral, na tipografia nem no
+   posicionamento do avatar. A sombra é propositalmente rasa (blur e
+   opacidade baixos) para não "vazar" visualmente para o card vizinho no
+   gap de 24px — só a borda de 1px marca o limite entre os cards. */
+.testimonial-card {
+  flex: 0 0 clamp(260px, 80vw, 340px);
+  height: 280px;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 24px 28px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 14px rgba(35, 35, 35, 0.04);
+  display: flex;
+  flex-direction: column;
+}
+
+.testimonial-quote {
+  color: var(--pink);
+  margin-bottom: 18px;
+  flex-shrink: 0;
+}
+
+.testimonial-text {
+  font-size: 15px;
+  color: var(--gray-text);
+  line-height: 1.75;
+  margin-bottom: 12px;
+  flex: 1;
+}
+
+.testimonial-footer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.testimonial-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--pink-tint);
+  color: var(--pink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 13px;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.testimonial-avatar.teal {
+  background: var(--teal-tint);
+  color: var(--teal);
+}
+
+.testimonial-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.testimonial-name {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--dark);
+}
+
+.testimonial-source {
+  display: block;
+  font-size: 12px;
+  color: var(--gray-text);
+  margin-top: 2px;
+}
+
+.depoimentos-cta {
+  text-align: center;
+  margin-top: 48px;
+}
+
+@media (max-width: 640px) {
+  .testimonial-row-track {
+    gap: 16px;
+  }
+}
+
+/* ==========================================================================
+   FAQ
+   ========================================================================== */
+
+/* Seção mais densa e utilitária (lista de perguntas) — respiro vertical
+   um pouco mais justo que as seções de conteúdo/venda ao redor, para que
+   o ritmo da página não seja um metrônomo de 100px em todo lugar. */
+.faq {
+  background: var(--bg-base);
+  padding: 80px 24px;
+}
+
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.faq-item {
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  transition: background 0.25s, border-color 0.25s;
+}
+
+.faq-item.open {
+  background: #FFF0F5;
+  border-color: rgba(253, 100, 152, 0.25);
+}
+
+/* O botão da pergunta agora vive dentro de um <h3> (navegação por heading
+   para leitores de tela) — zera o font/margin padrão de heading do navegador
+   para que o h3 não interfira no estilo já definido em .faq-question. */
+.faq-question-heading {
+  font: inherit;
+  margin: 0;
+}
+
+.faq-question {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  background: none;
+  border: none;
+  text-align: left;
+  gap: 16px;
+}
+
+/* .faq-item corta com overflow:hidden para arredondar os cantos — o botão
+   fica rente às bordas, então o anel de foco precisa ficar para DENTRO
+   (offset negativo) em vez de para fora, senão o próprio .faq-item o corta. */
+.faq-question:focus-visible {
+  outline-offset: -3px;
+}
+
+.faq-question span:first-child {
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--dark);
+  line-height: 1.4;
+}
+
+.faq-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(253, 100, 152, 0.1);
+  color: var(--pink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.25s;
+}
+
+.faq-icon svg {
+  transition: transform .35s var(--ease);
+}
+
+.faq-item.open .faq-icon {
+  background: var(--pink);
+  color: #fff;
+}
+
+.faq-item.open .faq-icon svg {
+  transform: rotate(180deg);
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s var(--ease);
+}
+
+.faq-answer p {
+  padding: 0 24px 20px;
+  font-size: 15px;
+  color: var(--gray-text);
+  line-height: 1.75;
+}
+
+/* ==========================================================================
+   Localização
+   ========================================================================== */
+
+.localizacao {
+  background: var(--bg-base);
+  padding: 100px 24px;
+}
+
+.localizacao-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: stretch;
+  min-width: 0;
+}
+
+.map-wrap {
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.08);
+  min-height: 380px;
+  background: var(--border);
+  position: relative;
+  min-width: 0;
+}
+
+.info-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 0;
+}
+
+.info-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 24px 26px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-card);
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.info-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(253, 100, 152, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--pink);
+  flex-shrink: 0;
+}
+
+.info-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--gray-text);
+  margin-bottom: 3px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.info-value {
+  font-family: var(--font-heading);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--dark);
+  margin-bottom: 2px;
+  overflow-wrap: anywhere;
+}
+
+.info-link {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.info-link:hover {
+  color: var(--pink);
+}
+
+.info-sub {
+  font-size: 13px;
+  color: var(--gray-text);
+}
+
+/* ==========================================================================
+   CTA Final
+   ========================================================================== */
+
+/* Última seção da página — recebe mais respiro que as demais para fechar
+   com um gesto mais deliberado em vez de repetir o mesmo padding 100px. */
+.cta-final {
+  /* Mesmo --bg-base das demais seções — o momento de fechamento se
+     diferencia só pelo respiro extra (130px), não por um bloco de cor ou
+     glow próprio (o glow radial que existia aqui virava uma mancha rosa
+     isolada sobre o fundo liso, então foi removido). */
+  background: var(--bg-base);
+  padding: 130px 24px;
+  position: relative;
+}
+
+.cta-final-inner {
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+}
+
+.cta-final-inner p {
+  margin-bottom: 44px;
+}
+
+.cta-final-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+}
+
+/* Único botão sólido em verde do site (o resto fica rosa em repouso, por
+   identidade) — "Prefere ligar?" no CTA final, pedido explícito do
+   cliente pra diferenciar visualmente da ação de WhatsApp ao lado. Sem
+   stroke: background var(--teal) direto, mesmo border:none dos outros
+   botões sólidos. Texto sempre branco — em repouso e no hover, sem
+   trocar de cor — por pedido explícito do cliente, que aceita o
+   contraste mais baixo contra o --teal claro em troca do texto nunca
+   "piscar" entre cores. */
+.btn-outline {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 32px;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+  background: var(--teal);
+  border: none;
+  color: #fff;
+  transition: transform 0.15s ease;
+}
+
+.btn-outline:hover {
+  transform: scale(0.98);
+}
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+
+.footer {
+  background: #181818;
+  padding: 64px 0 28px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.footer-top {
+  /* minmax(0, Nfr) — a bare `1fr` track won't shrink below its content's
+     intrinsic min-width. The unbreakable e-mail address in "Contato" was
+     forcing that column wider than its fair share, which visually shrank
+     the gap to "Horário" while "Navegação" kept the full 40px. */
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) repeat(3, minmax(0, 1fr));
+  align-items: start;
+  gap: 40px;
+  padding-bottom: 40px;
+  margin-bottom: 28px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-brand,
+.footer-col {
+  text-align: left;
+}
+
+.footer-brand .logo {
+  color: #fff;
+  line-height: 24px;
+  margin-bottom: 16px;
+}
+
+.footer-brand .logo .logo-mark {
+  height: 32px;
+}
+
+.footer-desc {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.5);
+  max-width: 300px;
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+.footer-social {
+  display: flex;
+  gap: 10px;
+}
+
+.footer-social a {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, color 0.2s;
+}
+
+.footer-social a:hover {
+  color: #fff;
+}
+
+.footer-social a.ig:hover { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+.footer-social a.fb:hover { background: #1877F2; }
+.footer-social a.wa:hover { background: #25D366; }
+
+.footer-col h3 {
+  font-family: var(--font-heading);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  line-height: 24px;
+  margin-bottom: 18px;
+}
+
+.footer-col ul {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  list-style: none;
+  padding-left: 0;
+}
+
+.footer-col a {
+  font-size: 14.5px;
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer-col a:hover {
+  color: var(--pink);
+}
+
+.footer-col li {
+  font-size: 14.5px;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.5;
+}
+
+.footer-contact li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.footer-contact li span {
+  overflow-wrap: anywhere;
+}
+
+.footer-contact svg {
+  margin-top: 2px;
+  color: var(--pink);
+  flex-shrink: 0;
+}
+
+.footer-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-size: 13px;
+  /* 0.4 media apenas 3.79:1 contra o fundo #181818 do rodapé, abaixo do
+     mínimo de 4.5:1 para texto de corpo (WCAG AA) — alinhado ao mesmo
+     rgba(255,255,255,0.6) já usado em .footer-col a/li neste rodapé,
+     que mede ~7:1. */
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.footer-bottom a {
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer-bottom a:hover {
+  color: var(--pink);
+}
+
+@media (min-width: 640px) {
+  .footer-bottom {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer-top {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .footer-top {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================================
+   WhatsApp Floating Button
+   ========================================================================== */
+
+.whatsapp-float {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  gap: 0px;
+  background: #25D366;
+  color: #fff;
+  border-radius: 100px;
+  padding: 14px;
+  box-shadow: none;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  transition: padding 0.3s, opacity 0.2s, transform 0.2s;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.whatsapp-float-icon {
+  flex-shrink: 0;
+}
+
+.whatsapp-float-text {
+  max-width: 0;
+  overflow: hidden;
+  transition: max-width 0.3s;
+  display: inline-block;
+}
+
+/* Expansão só em dispositivos com hover real (mouse) — em touch, o :hover
+   costuma "grudar" após o toque, fazendo o botão abrir/fechar sozinho de
+   forma estranha. No mobile o botão fica só o ícone, sem essa animação. */
+@media (hover: hover) and (pointer: fine) {
+  .whatsapp-float:hover {
+    padding: 14px 20px;
+    gap: 10px;
+    transform: scale(0.98);
+  }
+
+  .whatsapp-float:hover .whatsapp-float-text {
+    max-width: 160px;
+  }
+}
+
+/* Reforço por largura de tela — algumas combinações de navegador/dispositivo
+   relatam (hover: hover) mesmo em touch, então a regra acima sozinha não é
+   garantia. Abaixo de 768px (breakpoint de tablet do site) o botão nunca
+   expande, não importa o que :hover diga. */
+@media (max-width: 768px) {
+  .whatsapp-float:hover {
+    padding: 14px;
+    gap: 0;
+    transform: none;
+  }
+
+  .whatsapp-float:hover .whatsapp-float-text {
+    max-width: 0;
+  }
+}
+
+.whatsapp-float.is-hidden {
+  opacity: 0;
+  transform: scale(0.85);
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   Responsividade
+   ========================================================================== */
+
+@media (max-width: 1024px) {
+  .servicos-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .localizacao-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Em telas estreitas, cada seção desce um degrau na própria escala de
+   ritmo vertical já existente (130px "close" -> 100px "default" -> 100px
+   "default" -> 80px "dense") em vez de manter o padding pensado para
+   desktop — evita rolagem extra sem introduzir nenhum valor novo de
+   espaçamento fora da escala documentada em DESIGN.md. */
+@media (max-width: 768px) {
+  .hero {
+    padding: 128px 24px 80px;
+  }
+
+  .sobre,
+  .servicos,
+  .depoimentos,
+  .localizacao {
+    padding-top: 80px;
+    padding-bottom: 80px;
+  }
+
+  .cta-final {
+    padding-top: 100px;
+    padding-bottom: 100px;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-desktop,
+  .btn-nav {
+    display: none !important;
+  }
+  .menu-toggle {
+    display: block;
+  }
+  .hero-grid {
+    grid-template-columns: 1fr !important;
+    gap: 40px !important;
+  }
+  .sobre-grid {
+    grid-template-columns: 1fr !important;
+    gap: 40px !important;
+  }
+}
+
+@media (min-width: 769px) {
+  .mobile-menu {
+    display: none !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .servicos-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Reserva espaço para o botão flutuante do WhatsApp (fixed, canto
+     inferior direito) não cobrir a última linha do rodapé ao rolar até
+     o fim da página em telas pequenas. */
+  .footer {
+    padding-bottom: 96px;
+  }
+}
+
+/* ==========================================================================
+   Movimento reduzido
+   ========================================================================== */
+
+/* Regra geral: qualquer transição/animação que reste vira quase instantânea.
+   A parede de depoimentos recebe tratamento à parte logo acima
+   (.testimonial-row-track), porque aqui o problema não é a duração da
+   animação — é o loop contínuo deslocando conteúdo sozinho na tela, o
+   gatilho vestibular que essa preferência existe para evitar; ele é
+   desligado por completo (animation: none) em vez de só acelerado. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+

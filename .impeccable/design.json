@@ -1,0 +1,128 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-15T00:00:00.000Z",
+  "title": "Design System: Clínica do Bem",
+  "extensions": {
+    "colorMeta": {
+      "pink": { "role": "primary", "displayName": "Warm Blossom Pink", "canonical": "oklch(68% 0.18 6)", "tonalRamp": ["#5c1730", "#8a2247", "#b8305f", "#e34779", "#FD6498", "#ff8bb1", "#ffb6cf", "#ffe7ef"], "note": "The brand's real, dominant color — used directly and exactly everywhere pink appears (buttons, badges, emphasis text, icons, step numbers, testimonial stars/initials, hover states). Restoring it in full, in place of a darker accessible stand-in, was an explicit client decision that prioritizes brand fidelity over WCAG AA on those elements (2.82:1 on white)." },
+      "pink-dark": { "role": "primary", "displayName": "Warm Blossom Pink Deep", "canonical": "oklch(54.7% 0.200 8.0)", "note": "Kept only for accessibility-feature chrome invisible during normal browsing — the keyboard focus ring and the skip-to-content link. Not used anywhere in visible-by-default content." },
+      "pink-tint": { "role": "primary", "displayName": "Warm Blossom Pink Tint", "canonical": "oklch(95% 0.03 8)" },
+      "teal": { "role": "secondary", "displayName": "Calm Sage Teal", "canonical": "oklch(78% 0.09 175)", "tonalRamp": ["#1f3d34", "#2e5a4d", "#3e7666", "#5a9a86", "#7FCCB8", "#a3dccc", "#c8ecdf", "#e6f6f1"], "note": "The brand's real, dominant teal — used directly everywhere teal appears (icons, fills, badge text, section markers, testimonial-avatar initials). Same brand-fidelity decision and same accepted contrast tradeoff as the pink (1.87:1 on white)." },
+      "teal-dark": { "role": "secondary", "displayName": "Calm Sage Teal Deep", "canonical": "oklch(52.6% 0.084 170.0)", "note": "Currently unused in visible content; kept as a token in case a future accessibility-only feature needs it, mirroring pink-dark." },
+      "teal-tint": { "role": "secondary", "displayName": "Calm Sage Teal Tint", "canonical": "oklch(96% 0.02 170)" },
+      "ink": { "role": "neutral", "displayName": "Ink", "canonical": "oklch(23% 0 0)" },
+      "body-text": { "role": "neutral", "displayName": "Body Text Gray", "canonical": "oklch(43% 0.02 250)" },
+      "border": { "role": "neutral", "displayName": "Hairline Border", "canonical": "oklch(93% 0.005 240)" },
+      "surface-soft": { "role": "neutral", "displayName": "Soft Surface", "canonical": "oklch(98% 0.003 240)" },
+      "surface": { "role": "neutral", "displayName": "Surface White", "canonical": "oklch(100% 0 0)" },
+      "footer-bg": { "role": "neutral", "displayName": "Footer Near-Black", "canonical": "oklch(17% 0 0)" }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Hero H1 only." },
+      "headline": { "displayName": "Headline", "purpose": "Section titles across every section." },
+      "title": { "displayName": "Title", "purpose": "Card titles: services, steps, testimonials, info cards." },
+      "body": { "displayName": "Body", "purpose": "Primary running copy: hero/section descriptions." },
+      "body-sm": { "displayName": "Body Small", "purpose": "Secondary running copy: FAQ answers, testimonial text, legal/policy paragraphs (15px, not an arbitrary 14px)." },
+      "label": { "displayName": "Label", "purpose": "Badges, eyebrow step numbers, info-card labels, meta text." }
+    },
+    "shadows": [
+      { "name": "ambient-photo-lift", "value": "0 20px 60px rgba(0,0,0,0.1)", "purpose": "Hero and about-section photo frames." },
+      { "name": "floating-stat-card", "value": "0 12px 32px rgba(35,35,35,0.12)", "purpose": "Floating stat cards over the hero photo." },
+      { "name": "scrolled-header", "value": "0 2px 24px rgba(0,0,0,0.07)", "purpose": "Sticky header once scrolled past the top." },
+      { "name": "mobile-menu-panel", "value": "0 8px 32px rgba(0,0,0,0.08)", "purpose": "Slide-down mobile navigation panel." },
+      { "name": "map-embed", "value": "0 8px 40px rgba(0,0,0,0.08)", "purpose": "Location section map container." }
+    ],
+    "motion": [
+      { "name": "ease-standard", "value": "cubic-bezier(.22, .68, 0, 1)", "purpose": "Default easing for menu, nav underline, FAQ chevron, testimonial track transitions." }
+    ],
+    "breakpoints": [
+      { "name": "phone-sm", "value": "600px" },
+      { "name": "phone-md", "value": "640px" },
+      { "name": "tablet", "value": "768px" },
+      { "name": "desktop", "value": "1024px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The WhatsApp booking CTA, repeated at every major section.",
+      "html": "<a class=\"ds-btn-primary\" href=\"#\">Agende sua consulta pelo WhatsApp</a>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; gap: 10px; padding: 16px 32px; border-radius: 50px; font-size: 16px; font-weight: 700; text-decoration: none; background: #FD6498; color: #fff; transition: transform 0.15s ease; } .ds-btn-primary:hover, .ds-btn-primary:focus-visible { transform: scale(0.98); outline: none; }"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Secondary fallback action (phone call) alongside the primary WhatsApp CTA.",
+      "html": "<a class=\"ds-btn-outline\" href=\"#\">Prefere ligar?</a>",
+      "css": ".ds-btn-outline { display: inline-flex; align-items: center; gap: 10px; padding: 16px 32px; border-radius: 50px; font-size: 16px; font-weight: 700; text-decoration: none; background: transparent; border: 1.5px solid #FD6498; color: #FD6498; transition: transform 0.15s ease; } .ds-btn-outline:hover, .ds-btn-outline:focus-visible { transform: scale(0.98); outline: none; }"
+    },
+    {
+      "name": "Badge",
+      "kind": "chip",
+      "refersTo": "badge",
+      "description": "Section-opening pill label (e.g. \"Saúde da Mulher\", \"Sobre a Clínica\").",
+      "html": "<span class=\"ds-badge\">Saúde da Mulher</span>",
+      "css": ".ds-badge { display: inline-block; padding: 6px 16px; border-radius: 50px; font-size: 13px; font-weight: 600; letter-spacing: 0.5px; background: rgba(253,100,152,0.1); color: #FD6498; }"
+    },
+    {
+      "name": "Service Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Icon + title + description card used across the services grid.",
+      "html": "<div class=\"ds-card\"><div class=\"ds-card-icon\"><svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\"><circle cx=\"12\" cy=\"8\" r=\"4\"/><path d=\"M4 21v-1a8 8 0 0 1 16 0v1\"/></svg></div><h3>Consulta de Enfermagem Ginecológica</h3><p>Avaliação, orientações e acompanhamento voltados à saúde íntima e ao bem-estar feminino.</p></div>",
+      "css": ".ds-card { background: #fff; border-radius: 20px; padding: 28px 24px; border: 1px solid #E9EDF2; } .ds-card-icon { width: 48px; height: 48px; border-radius: 14px; background: rgba(253,100,152,0.08); display: flex; align-items: center; justify-content: center; color: #FD6498; margin-bottom: 16px; } .ds-card h3 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; font-weight: 700; color: #232323; margin: 0 0 8px; line-height: 1.35; } .ds-card p { font-size: 14px; color: #525C68; line-height: 1.65; margin: 0; }"
+    },
+    {
+      "name": "FAQ Accordion Item",
+      "kind": "custom",
+      "refersTo": "faq-item",
+      "description": "Expandable question/answer row; open state washes to a pink tint.",
+      "html": "<div class=\"ds-faq ds-faq-open\"><button class=\"ds-faq-q\"><span>Como faço para agendar uma consulta?</span><span class=\"ds-faq-icon\">˅</span></button><div class=\"ds-faq-a\"><p>O agendamento é feito pelo WhatsApp.</p></div></div>",
+      "css": ".ds-faq { background: #FFF0F5; border-radius: 16px; border: 1px solid rgba(253,100,152,0.25); overflow: hidden; } .ds-faq-q { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 20px 24px; background: none; border: none; text-align: left; gap: 16px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; font-weight: 600; color: #232323; cursor: pointer; } .ds-faq-icon { width: 32px; height: 32px; border-radius: 50%; background: #FD6498; color: #fff; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transform: rotate(180deg); } .ds-faq-a p { padding: 0 24px 20px; font-size: 15px; color: #525C68; line-height: 1.75; margin: 0; }"
+    },
+    {
+      "name": "WhatsApp Floating Button",
+      "kind": "custom",
+      "refersTo": null,
+      "description": "Fixed bottom-right button that expands to reveal its label on hover.",
+      "html": "<a class=\"ds-wa-float\" href=\"#\"><svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"currentColor\"><path d=\"M12 2a10 10 0 1 0 4.9 18.7L22 22l-1.3-5A10 10 0 0 0 12 2z\"/></svg><span class=\"ds-wa-float-text\">Falar pelo WhatsApp</span></a>",
+      "css": ".ds-wa-float { position: fixed; bottom: 28px; right: 28px; display: flex; align-items: center; gap: 0; background: #25D366; color: #fff; border-radius: 100px; padding: 14px; text-decoration: none; font-size: 14px; font-weight: 600; overflow: hidden; white-space: nowrap; transition: padding 0.3s, transform 0.2s; } .ds-wa-float-text { max-width: 0; overflow: hidden; transition: max-width 0.3s; display: inline-block; } .ds-wa-float:hover, .ds-wa-float:focus-visible { padding: 14px 20px; gap: 10px; transform: scale(0.98); } .ds-wa-float:hover .ds-wa-float-text, .ds-wa-float:focus-visible .ds-wa-float-text { max-width: 160px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Trusted Confidante",
+    "overview": "Clínica do Bem's interface reads like a conversation with someone who has your back — soft, unhurried, never clinical-cold. Warm Blossom Pink carries emotional warmth and is the page's dominant voice; Calm Sage Teal sits underneath as a quieter counterpoint, standing in for the clinic's broader nursing-care work. Nothing on the page shouts: rounded pill buttons, soft gradients, and generous whitespace all work together to feel like a welcoming room rather than a waiting one. This system explicitly rejects the sterile, corporate-hospital look (stock photography, blue-and-white palettes, impersonal tone) and the generic local-business template feel.",
+    "keyCharacteristics": [
+      "Soft, rounded geometry everywhere (pills, 20–28px card corners, circular icon badges) — no hard edges.",
+      "Warm Blossom Pink leads; Calm Sage Teal supports; both stay pastel-tinted rather than saturated.",
+      "Flat surfaces with atmosphere carried by soft gradient washes and blurred radial glows, not hard shadows.",
+      "Generous section rhythm (100px vertical padding as the default beat) that varies deliberately at the page's open and close."
+    ],
+    "rules": [
+      { "name": "The Tint-Don't-Saturate Rule", "body": "Both accent colors appear far more often as a soft tint (backgrounds, badges, gradient washes at 6–20% opacity) than as a solid fill.", "section": "colors" },
+      { "name": "The Brand-Fidelity Rule", "body": "The original pink (#FD6498) and teal (#7FCCB8) are used exactly as-is everywhere — buttons, badges, icons, emphasis text, hover states, decorative marks. A prior pass had rerouted much of this to darker AA-compliant variants; the client explicitly asked for the original colors back in full, choosing brand identity over that compliance gain. Known, accepted tradeoff: contrast now sits below AA wherever the base colors carry content. pink-dark remains only for the keyboard focus ring and skip-link, both invisible during normal browsing.", "section": "colors" },
+      { "name": "The One Big Statement Rule", "body": "Only the hero H1 uses the display size. Section titles read as a clear step down so repeating six section headers down the page never reads as six equally loud shouts.", "section": "typography" },
+      { "name": "The Border-Before-Shadow Rule", "body": "Cards default to a 1px border, not a shadow. A shadow is earned only by elements meant to feel physically separated from the page (photos, floating stat cards, the map, the scrolled header).", "section": "elevation" }
+    ],
+    "dos": [
+      "Do keep pink as the dominant, teal as the supporting accent — never let teal outweigh pink in a single section.",
+      "Do use the pill shape (50px radius) for every button and badge; it's the system's single strongest shape signal.",
+      "Do default new cards to a 1px solid border line, not a shadow.",
+      "Do cap section title size at clamp(26px,2.6vw,38px) — the hero H1 is the only element allowed the larger display scale.",
+      "Do write copy around sensitive topics (ISTs, gynecological procedures) with the same unhurried, non-judgmental warmth as the rest of the page.",
+      "Do use the base pink/teal (#FD6498/#7FCCB8) for everything visible — buttons, badges, icons, emphasis text, hover states, decorative marks — even where contrast sits below AA.",
+      "Do keep pink-dark reserved for the two accessibility-only features invisible in normal browsing: the keyboard focus ring and skip-link."
+    ],
+    "donts": [
+      "Don't introduce a cold, corporate-hospital aesthetic — no stock photography, no blue-and-white clinical palettes, no impersonal tone.",
+      "Don't let the page read as a generic local-business template.",
+      "Don't add hard drop shadows to resting cards; shadows are reserved for the photo frame, floating stat cards, scrolled header, mobile menu, and map only.",
+      "Don't use sharp corners anywhere — the system has no 0px or small-radius (2–8px) elements; the floor is 14px.",
+      "Don't dilute the WhatsApp CTA's visual priority — it must stay the single most prominent action in the hero, services, \"como funciona,\" and final CTA sections.",
+      "Don't use pink-dark/teal-dark in any visible-by-default content — reserved exclusively for the focus ring and skip-link. Reintroducing it elsewhere is exactly the change the client asked to have reverted."
+    ]
+  }
+}

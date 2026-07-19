@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clínica do Bem | Saúde da Mulher</title>
+  <meta name="description" content="Clínica do Bem — atendimento humanizado em saúde da mulher: consultas, DIU, Implanon, preventivo, ISTs e mais. Agende pelo WhatsApp." />
+  <link rel="canonical" href="https://www.clinicadobemfoz.com.br/" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="pt_BR" />
+  <meta property="og:site_name" content="Clínica do Bem" />
+  <meta property="og:title" content="Clínica do Bem | Saúde da Mulher" />
+  <meta property="og:description" content="Atendimento humanizado em saúde da mulher: consultas, DIU, Implanon, preventivo, ISTs e mais. Agende pelo WhatsApp." />
+  <meta property="og:url" content="https://www.clinicadobemfoz.com.br/" />
+  <meta property="og:image" content="https://www.clinicadobemfoz.com.br/images/hero-doutora.jpg" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Clínica do Bem | Saúde da Mulher" />
+  <meta name="twitter:description" content="Atendimento humanizado em saúde da mulher: consultas, DIU, Implanon, preventivo, ISTs e mais. Agende pelo WhatsApp." />
+  <meta name="twitter:image" content="https://www.clinicadobemfoz.com.br/images/hero-doutora.jpg" />
+
+  <meta name="theme-color" content="#FD6498" />
+  <link rel="icon" type="image/png" href="images/favicon.png" />
+  <link rel="apple-touch-icon" href="images/favicon.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- Preload + troca de media no load: a folha de estilo do Google Fonts deixa
+       de bloquear a primeira renderização (era a maior cadeia de bloqueio
+       medida no Lighthouse); com media="print" o navegador ainda baixa a
+       folha em paralelo, só não espera por ela antes de pintar a página. O
+       <noscript> garante a fonte correta mesmo com JavaScript desabilitado. -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" /></noscript>
+  <link rel="stylesheet" href="style.css" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "MedicalClinic",
+    "name": "Clínica do Bem",
+    "image": "https://www.clinicadobemfoz.com.br/images/hero-doutora.jpg",
+    "url": "https://www.clinicadobemfoz.com.br/",
+    "telephone": "+5545991276438",
+    "email": "clinicadobemofc@gmail.com",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Av. Garibaldi - Itaipu A",
+      "addressLocality": "Foz do Iguaçu",
+      "addressRegion": "PR",
+      "postalCode": "85861-550",
+      "addressCountry": "BR"
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        "opens": "08:00",
+        "closes": "18:00"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Saturday"],
+        "opens": "08:00",
+        "closes": "12:00"
+      }
+    ],
+    "sameAs": [
+      "https://www.instagram.com/clinicadobemfoz/",
+      "https://www.facebook.com/people/Cl%C3%ADnica-do-Bem/61566513786615/"
+    ]
+  }
+  </script>
+</head>
+<body>
+
+  <!-- Sprite de ícones reutilizados (evita duplicar o mesmo path SVG em cada botão de WhatsApp) -->
+  <svg aria-hidden="true" style="display:none">
+    <symbol id="icon-whatsapp" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.117.554 4.103 1.523 5.83L.057 23.804a.75.75 0 0 0 .957.921l6.218-1.93C8.876 23.52 10.4 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.636 0-3.197-.432-4.558-1.258l-.326-.195-3.368 1.045 1.082-3.29-.213-.34A9.93 9.93 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></symbol>
+  </svg>
+
+  <a href="#main" class="skip-link">Pular para o conteúdo</a>
+
+  <!-- Header -->
+  <header id="header" class="header">
+    <div class="header-inner">
+      <a href="#inicio" class="logo" data-nav-link>
+        <picture>
+          <source type="image/webp" srcset="images/logo-clinica-do-bem.webp">
+          <img src="images/logo-clinica-do-bem.png" alt="Clínica do Bem" class="logo-mark" width="240" height="196">
+        </picture>
+        <span class="logo-text">Clínica do Bem</span>
+      </a>
+
+      <nav class="nav-desktop">
+        <a href="#inicio" data-nav-link>Início</a>
+        <a href="#sobre" data-nav-link>Sobre</a>
+        <a href="#servicos" data-nav-link>Serviços</a>
+        <a href="#depoimentos" data-nav-link>Depoimentos</a>
+        <a href="#faq" data-nav-link>Dúvidas</a>
+        <a href="#localizacao" data-nav-link>Localização</a>
+      </nav>
+      <a href="https://wa.me/5545991276438?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Cl%C3%ADnica%20do%20Bem%20e%20gostaria%20de%20agendar%20uma%20consulta.%20Poderia%20me%20passar%20mais%20informa%C3%A7%C3%B5es%3F" data-wa-cta target="_blank" rel="noopener noreferrer" class="btn-pink btn-nav">
+          <svg class="icon-brand" width="16" height="16" aria-hidden="true"><use href="#icon-whatsapp" fill="currentColor"/></svg>
+          Agendar Consulta
+        </a>
+
+      <button id="menuToggle" type="button" class="menu-toggle" aria-label="Abrir menu" aria-expanded="false">
+        <i data-lucide="menu" class="icon-menu" width="24" height="24" stroke-width="2" aria-hidden="true"></i>
+        <i data-lucide="x" class="icon-close" width="24" height="24" stroke-width="2" aria-hidden="true"></i>
+      </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="mobile-menu">
+      <a href="#inicio" data-nav-link>Início</a>
+      <a href="#sobre" data-nav-link>Sobre</a>
+      <a href="#servicos" data-nav-link>Serviços</a>
+      <a href="#depoimentos" data-nav-link>Depoimentos</a>
+      <a href="#faq" data-nav-link>Dúvidas</a>
+      <a href="#localizacao" data-nav-link>Localização</a>
+      <a href="https://wa.me/5545991276438?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Cl%C3%ADnica%20do%20Bem%20e%20gostaria%20de%20agendar%20uma%20consulta.%20Poderia%20me%20passar%20mais%20informa%C3%A7%C3%B5es%3F" data-wa-cta target="_blank" rel="noopener noreferrer" class="btn-pink btn-mobile-cta">
+        <svg class="icon-brand" width="16" height="16" aria-hidden="true"><use href="#icon-whatsapp" fill="currentColor"/></svg>
+        Agendar Consulta
+      </a>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <!-- Hero -->
+    <section id="inicio" class="hero">
+      <div class="container hero-grid">
+        <div class="hero-text reveal">
+          <span class="badge badge-pink">Saúde da Mulher</span>
+
+          <h1 class="hero-title">
+            Cuidado completo para a saúde da <span class="text-pink">mulher.</span>
+          </h1>
+
+          <p class="hero-desc">
+            Você encontra atendimento especializado em saúde da mulher, com foco na prevenção, no bem-estar e no cuidado humanizado.
+          </p>
+
+          <div class="benefits-list">
+            <div class="benefit-item">
+              <span class="benefit-check">
+                <i data-lucide="check" width="12" height="12" stroke-width="3" aria-hidden="true"></i>
+              </span>
+              <span class="benefit-label">Atendimento Humanizado</span>
+            </div>
+            <div class="benefit-item">
+              <span class="benefit-check">
+                <i data-lucide="check" width="12" height="12" stroke-width="3" aria-hidden="true"></i>
+              </span>
+              <span class="benefit-label">Enfermeira Especialista</span>
+            </div>
+            <div class="benefit-item">
+              <span class="benefit-check">
+                <i data-lucide="check" width="12" height="12" stroke-width="3" aria-hidden="true"></i>
+              </span>
+              <span class="benefit-label">Mais de 300 pacientes atendidas</span>
+            </div>
+          </div>
+
+          <a href="https://wa.me/5545991276438?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Cl%C3%ADnica%20do%20Bem%20e%20gostaria%20de%20agendar%20uma%20consulta.%20Poderia%20me%20passar%20mais%20informa%C3%A7%C3%B5es%3F" data-wa-cta target="_blank" rel="noopener noreferrer" class="btn-pink btn-hero">
+            <svg class="icon-brand" width="20" height="20" aria-hidden="true"><use href="#icon-whatsapp" fill="currentColor"/></svg>
+            Agende sua consulta pelo WhatsApp
+          </a>
+        </div>
+
+        <div class="hero-visual reveal">
+          <div class="hero-photo-frame">
+            <picture>
+              <source type="image/webp" srcset="images/hero-doutora.webp">
+              <img src="images/hero-doutora.jpg" alt="Charlene, profissional da Clínica do Bem, sorrindo em sua mesa de atendimento, com certificados profissionais emoldurados na parede ao fundo" class="hero-photo" width="1200" height="1200" fetchpriority="high">
+            </picture>
+          </div>
+          <div class="float-card float-card-1">
+            <i data-lucide="heart" width="20" height="20" stroke-width="1.8" aria-hidden="true"></i>
+            <div><strong>Cuidado real</strong><span>Escuta em cada consulta</span></div>
+          </div>
+          <div class="float-card float-card-2">
+            <i data-lucide="shield" width="20" height="20" stroke-width="1.8" aria-hidden="true"></i>
+            <div><strong>Ambiente seguro</strong><span>Sigilo e acolhimento</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sobre -->
+    <section id="sobre" class="sobre">
+      <div class="container sobre-grid">
+        <div class="sobre-visual reveal">
+          <div class="hero-photo-frame sobre-frame">
+            <picture>
+              <source type="image/webp" srcset="images/sobre-doutora.webp">
+              <img src="images/sobre-doutora.jpg" alt="Retrato de Charlene, profissional da Clínica do Bem, sorrindo e segurando três modelos de DIU oferecidos na clínica" class="hero-photo" width="720" height="1280" loading="lazy">
+            </picture>
+          </div>
+        </div>
+
+        <div class="sobre-content reveal">
+          <span class="badge badge-teal">Sobre a Clínica</span>
+
+          <h2 class="section-title">Um cuidado pensado <span class="text-pink">para você.</span></h2>
+
+          <div class="sobre-paragraphs">
+            <p>Sabemos que cuidar da saúde exige confiança. Por isso, você é recebida com atenção, respeito e escuta em cada etapa do seu atendimento.</p>
+            <p>Você conta com uma experiência segura e tranquila, orientações claras e procedimentos realizados por profissionais qualificados.</p>
+            <p>Prevenir é a melhor forma de cuidar da sua saúde — e você caminha essa jornada com alguém ao seu lado.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Serviços -->
+    <section id="servicos" class="servicos">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="badge badge-pink">Serviços</span>
+          <h2 class="section-title section-title-center">O que oferecemos?</h2>
+          <p class="section-desc">Você recebe cuidados completos para a sua saúde, com técnica, segurança e acolhimento.</p>
+        </div>
+
+        <div class="servicos-group">
+          <h3 class="servicos-group-title reveal">Saúde da Mulher</h3>
+          <div class="servicos-grid reveal-stagger">
+            <div class="servico-card servico-card-featured reveal" style="--i:0">
+              <span class="servico-badge" role="img" aria-label="Um dos serviços mais procurados pelas pacientes"><span aria-hidden="true">★★★★★ Mais procurado</span></span>
+              <div class="servico-icon">
+                <i data-lucide="user-round" width="24" height="24" stroke-width="1.8" aria-hidden="true"></i>
+              </div>
+              <h4>Consulta de Enfermagem Ginecológica</h4>
+              <p>Avaliação, orientações e acompanhamento voltados à saúde íntima e ao bem-estar feminino.</p>
+            </div>
+            <div class="servico-card servico-card-featured reveal" style="--i:1">
+              <span class="servico-badge" role="img" aria-label="Um dos serviços mais procurados pelas pacientes"><span aria-hidden="true">★★★★★ Mais procurado</span></span>
+              <div class="servico-icon teal">
+                <i data-lucide="circle-dot" width="24" height="24" stroke-width="1.8" aria-hidden="true"></i>
+              </div>
+              <h4>Inserção e Remoção de DIU</h4>
+              <p>Procedimentos realizados com segurança para DIU de Cobre, Prata e Hormonal.</p>
+            </div>
+            <div class="servico-card servico-card-featured reveal" style="--i:2">
+              <span class="servico-badge" role="img" aria-label="Um dos serviços mais procurados pelas pacientes"><span aria-hidden="true">★★★★★ Mais procurado</span></span>
+              <div class="servico-icon">
+                <i data-lucide="shield" width="24" height="24" stroke-width="1.8" aria-hidden="true"></i>
+              </div>
+              <h4>Inserção e Remoção de Implanon</h4>
+              <p>Método contraceptivo de longa duração realizado por profissionais capacitados.</p>
+            </div>
+            <div class="servico-card reveal" style="--i:3">
+              <div class="servico-icon teal">
+                <i data-lucide="clipboard-check" width="24" height="24" stroke-width="1.8" aria-hidden="true"></i>
+              </div>
+              <h4>Preventivo (Papanicolau)</h4>
+              <p>Exame essencial para a prevenção e o acompanhamento da saúde do colo do útero.</p>
+            </div>
+            <div class="servico-card reveal" style="--i:4">
+              <div class="servico-icon">
+                <i data-lucide="shield-alert" width="24" height="24" stroke-width="1.8" aria-hidden="true"></i>
+              </div>
+              <h4>Investigação de ISTs</h4>
+              <p>Avaliação, orientação e acompanhamento com total sigilo e acolhimento.</p>
+            </div>
+            <div class="servico-card reveal" style="--i:5">
+              <div class="servico-icon teal">
+                <i data-lucide="heart-pulse" width="24" height="24" stroke-width="1.8" aria-hidden="true"></i>
+              </div>
+              <h4>Consulta em Saúde da Mulher</h4>
+              <p>Atendimento personalizado para prevenção, orientação e cuidados contínuos.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="servicos-group">
+          <h3 class="servicos-group-title servicos-group-title-teal reveal">Cuidados de Enfermagem Geral</h3>
+          <div class="servicos-grid reveal-stagger">
+            <div class="servico-card reveal" style="--i:0">
+              <div class="servico-icon">
+                <i data-lucide="droplet" width="24" height="24" stroke-width="1.8" aria-hidden="true"></i>
+              </div>
+              <h4>Troca de Sonda Vesical</h4>
+              <p>Procedimento realizado com técnica, segurança e atenção ao conforto da paciente.</p>
+            </div>
+            <div class="servico-card reveal" style="--i:1">
+              <div class="servico-icon teal">
+                <i data-lucide="bandage" width="24" height="24" stroke-width="1.8" aria-hidden="true"></i>
+              </div>
+              <h4>Avaliação e Tratamento de Feridas Crônicas</h4>
+              <p>Acompanhamento especializado para favorecer uma recuperação adequada.</p>
+            </div>
+            <div class="servico-card reveal" style="--i:2">
+              <div class="servico-icon">
+                <i data-lucide="home" width="24" height="24" stroke-width="1.8" aria-hidden="true"></i>
+              </div>
+              <h4>Cuidados com Pacientes Ostomizados</h4>
+              <p>Orientação e assistência para promover mais conforto e qualidade de vida.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="servicos-cta">
+          <a href="https://wa.me/5545991276438?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Cl%C3%ADnica%20do%20Bem%20e%20gostaria%20de%20agendar%20uma%20consulta.%20Poderia%20me%20passar%20mais%20informa%C3%A7%C3%B5es%3F" data-wa-cta target="_blank" rel="noopener noreferrer" class="btn-pink btn-servicos">
+            <svg class="icon-brand" width="20" height="20" aria-hidden="true"><use href="#icon-whatsapp" fill="currentColor"/></svg>
+            Agendar consulta
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Intermediária -->
+    <section class="cta-section">
+      <div class="cta-section-glow cta-section-glow-1" aria-hidden="true"></div>
+      <div class="cta-section-glow cta-section-glow-2" aria-hidden="true"></div>
+      <div class="cta-inner reveal">
+        <h2 class="section-title">Precisa de orientação ou deseja agendar seu atendimento?</h2>
+        <p class="section-desc">Nossa equipe está pronta para esclarecer suas dúvidas e ajudar você a escolher o melhor atendimento.</p>
+        <a href="https://wa.me/5545991276438?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Cl%C3%ADnica%20do%20Bem%20e%20gostaria%20de%20agendar%20uma%20consulta.%20Poderia%20me%20passar%20mais%20informa%C3%A7%C3%B5es%3F" data-wa-cta target="_blank" rel="noopener noreferrer" class="btn-white">
+          <svg class="icon-brand" width="20" height="20" aria-hidden="true"><use href="#icon-whatsapp" fill="currentColor"/></svg>
+          Falar com nossa equipe
+        </a>
+      </div>
+    </section>
+
+    <!-- Depoimentos -->
+    <section id="depoimentos" class="depoimentos">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="badge badge-pink badge-rating" role="img" aria-label="Avaliação 5 de 5 estrelas no Google, 88 avaliações reais">
+            <span aria-hidden="true" class="badge-rating-stars">★★★★★</span>
+            <span aria-hidden="true">5.0 no Google &bull; 88 avaliações reais</span>
+          </span>
+          <h2 class="section-title section-title-center">Quem confia, recomenda.</h2>
+          <p class="section-desc">Veja o que nossas pacientes dizem sobre a experiência de ser atendida na Clínica do Bem.</p>
+        </div>
+
+        <!-- Parede de depoimentos: uma única fileira horizontal em loop contínuo
+             via CSS puro (sem JS), rolando da esquerda para a direita. A
+             fileira contém o conjunto completo dos 6 depoimentos reais uma
+             vez, seguido do mesmo conjunto duplicado (marcado aria-hidden),
+             para que um translateX(-50%) feche o ciclo exatamente na largura
+             de um conjunto — sem nenhum salto visível. Os textos são versões
+             condensadas dos depoimentos reais (mesmo sentido, só sem as
+             partes repetitivas) para caber com folga na altura fixa do card
+             em qualquer largura de tela, sem cortar frase nem usar
+             reticências. -->
+        <div class="testimonial-wall reveal">
+          <div class="testimonial-row">
+            <div class="testimonial-row-track">
+              <article class="testimonial-card">
+                <i data-lucide="quote" class="testimonial-quote" width="30" height="30" stroke-width="1.75" aria-hidden="true"></i>
+                <p class="testimonial-text">"Atendimento acolhedor e sem pressa, com todas as minhas dúvidas sanadas. Recomendo de olhos fechados."</p>
+                <div class="testimonial-footer">
+                  <div class="testimonial-avatar">M</div>
+                  <div>
+                    <strong class="testimonial-name">Maria</strong>
+                    <span class="testimonial-source">Paciente da Clínica do Bem</span>
+                  </div>
+                </div>
+              </article>
+
+              <article class="testimonial-card">
+                <i data-lucide="quote" class="testimonial-quote" width="30" height="30" stroke-width="1.75" aria-hidden="true"></i>
+                <p class="testimonial-text">"A Dra. Charlene explicou tudo com calma e atenção, o que me deixou muito confortável. Adorei!"</p>
+                <div class="testimonial-footer">
+                  <div class="testimonial-avatar teal">L</div>
+                  <div>
+                    <strong class="testimonial-name">Laís</strong>
+                    <span class="testimonial-source">Paciente da Clínica do Bem</span>
+                  </div>
+                </div>
+              </article>
+
+              <article class="testimonial-card">
+                <i data-lucide="quote" class="testimonial-quote" width="30" height="30" stroke-width="1.75" aria-hidden="true"></i>
+                <p class="testimonial-text">"Atendimento incrível e atencioso, procedimento indolor. Pessoas maravilhosas — recomendo muito!"</p>
+                <div class="testimonial-footer">
+                  <div class="testimonial-avatar">H</div>
+                  <div>
+                    <strong class="testimonial-name">Hellen</strong>
+                    <span class="testimonial-source">Paciente da Clínica do Bem</span>
+                  </div>
+                </div>
+              </article>
+
+              <article class="testimonial-card">
+                <i data-lucide="quote" class="testimonial-quote" width="30" height="30" stroke-width="1.75" aria-hidden="true"></i>
+                <p class="testimonial-text">"Atendimento espetacular, com tudo bem explicado. Procedimento tranquilo, seguro e sem dores."</p>
+                <div class="testimonial-footer">
+                  <div class="testimonial-avatar teal">J</div>
+                  <div>
+                    <strong class="testimonial-name">Juliane</strong>
+                    <span class="testimonial-source">Paciente da Clínica do Bem</span>
+                  </div>
+                </div>
+              </article>
+
+              <article class="testimonial-card">
+                <i data-lucide="quote" class="testimonial-quote" width="30" height="30" stroke-width="1.75" aria-hidden="true"></i>
+                <p class="testimonial-text">"A Dra. Charlene é incrível: acolhedora, explica tudo com calma, num espaço maravilhoso."</p>
+                <div class="testimonial-footer">
+                  <div class="testimonial-avatar">A</div>
+                  <div>
+                    <strong class="testimonial-name">Alcione</strong>
+                    <span class="testimonial-source">Paciente da Clínica do Bem</span>
+                  </div>
+                </div>
+              </article>
+
+              <article class="testimonial-card">
+                <i data-lucide="quote" class="testimonial-quote" width="30" height="30" stroke-width="1.75" aria-hidden="true"></i>
+                <p class="testimonial-text">"Cheguei ansiosa e cheia de dúvidas; a equipe foi cuidadosa, humana e respeitosa do início ao fim."</p>
+                <div class="testimonial-footer">
+                  <div class="testimonial-avatar teal">C</div>
+                  <div>
+                    <strong class="testimonial-name">Carla</strong>
+                    <span class="testimonial-source">Paciente da Clínica do Bem</span>
+                  </div>
+                </div>
+              </article>
+
+              <!-- Cópia para o loop contínuo — mesmo conteúdo, escondido de leitores de tela. -->
+              <article class="testimonial-card" aria-hidden="true">
+                <i data-lucide="quote" class="testimonial-quote" width="30" height="30" stroke-width="1.75"></i>
+                <p class="testimonial-text">"Atendimento acolhedor e sem pressa, com todas as minhas dúvidas sanadas. Recomendo de olhos fechados."</p>
+                <div class="testimonial-footer">
+                  <div class="testimonial-avatar">M</div>
+                  <div>
+                    <strong class="testimonial-name">Maria</strong>
+                    <span class="testimonial-source">Paciente da Clínica do Bem</span>
+                  </div>
+                </div>
+              </article>
+
+              <article class="testimonial-card" aria-hidden="true">
+                <i data-lucide="quote" class="testimonial-quote" width="30" height="30" stroke-width="1.75"></i>
+                <p class="testimonial-text">"A Dra. Charlene explicou tudo com calma e atenção, o que me deixou muito confortável. Adorei!"</p>
+                <div class="testimonial-footer">
+                  <div class="testimonial-avatar teal">L</div>
+                  <div>
+                    <strong class="testimonial-name">Laís</strong>
+                    <span class="testimonial-source">Paciente da Clínica do Bem</span>
+                  </div>
+                </div>
+              </article>
+
+              <article class="testimonial-card" aria-hidden="true">
+                <i data-lucide="quote" class="testimonial-quote" width="30" height="30" stroke-width="1.75"></i>
+                <p class="testimonial-text">"Atendimento incrível e atencioso, procedimento indolor. Pessoas maravilhosas — recomendo muito!"</p>
+                <div class="testimonial-footer">
+                  <div class="testimonial-avatar">H</div>
+                  <div>
+                    <strong class="testimonial-name">Hellen</strong>
+                    <span class="testimonial-source">Paciente da Clínica do Bem</span>
+                  </div>
+                </div>
+              </article>
+
+              <article class="testimonial-card" aria-hidden="true">
+                <i data-lucide="quote" class="testimonial-quote" width="30" height="30" stroke-width="1.75"></i>
+                <p class="testimonial-text">"Atendimento espetacular, com tudo bem explicado. Procedimento tranquilo, seguro e sem dores."</p>
+                <div class="testimonial-footer">
+                  <div class="testimonial-avatar teal">J</div>
+                  <div>
+                    <strong class="testimonial-name">Juliane</strong>
+                    <span class="testimonial-source">Paciente da Clínica do Bem</span>
+                  </div>
+                </div>
+              </article>
+
+              <article class="testimonial-card" aria-hidden="true">
+                <i data-lucide="quote" class="testimonial-quote" width="30" height="30" stroke-width="1.75"></i>
+                <p class="testimonial-text">"A Dra. Charlene é incrível: acolhedora, explica tudo com calma, num espaço maravilhoso."</p>
+                <div class="testimonial-footer">
+                  <div class="testimonial-avatar">A</div>
+                  <div>
+                    <strong class="testimonial-name">Alcione</strong>
+                    <span class="testimonial-source">Paciente da Clínica do Bem</span>
+                  </div>
+                </div>
+              </article>
+
+              <article class="testimonial-card" aria-hidden="true">
+                <i data-lucide="quote" class="testimonial-quote" width="30" height="30" stroke-width="1.75"></i>
+                <p class="testimonial-text">"Cheguei ansiosa e cheia de dúvidas; a equipe foi cuidadosa, humana e respeitosa do início ao fim."</p>
+                <div class="testimonial-footer">
+                  <div class="testimonial-avatar teal">C</div>
+                  <div>
+                    <strong class="testimonial-name">Carla</strong>
+                    <span class="testimonial-source">Paciente da Clínica do Bem</span>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+
+        <div class="depoimentos-cta">
+          <!-- Aponta para uma busca no Google Maps enquanto o link direto do perfil
+               não é configurado. Trocar pela URL do perfil verificado assim que disponível. -->
+          <a href="https://www.google.com/maps/search/?api=1&query=Cl%C3%ADnica+do+Bem+Foz+do+Igua%C3%A7u" target="_blank" rel="noopener noreferrer" class="btn-pink">
+            Ver todas as avaliações no Google
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="faq">
+      <div class="container-narrow">
+        <div class="section-header reveal">
+          <span class="badge badge-pink">Dúvidas Frequentes</span>
+          <h2 class="section-title section-title-center">Perguntas <span class="text-pink">frequentes</span></h2>
+        </div>
+
+        <div class="faq-list reveal">
+          <div class="faq-item">
+            <h3 class="faq-question-heading"><button type="button" class="faq-question" aria-expanded="false">
+              <span>O atendimento é sigiloso?</span>
+              <span class="faq-icon">
+                <i data-lucide="chevron-down" width="16" height="16" stroke-width="2.4" aria-hidden="true"></i>
+              </span>
+            </button></h3>
+            <div class="faq-answer" aria-hidden="true" inert>
+              <p>Sim. Todos os atendimentos são realizados com sigilo total, respeito e sem nenhum julgamento — inclusive para investigação de ISTs ou outras questões mais delicadas. Nossa equipe segue rigorosos protocolos de privacidade, garantindo que suas informações sejam tratadas com a máxima confidencialidade.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <h3 class="faq-question-heading"><button type="button" class="faq-question" aria-expanded="false">
+              <span>Como faço para agendar uma consulta?</span>
+              <span class="faq-icon">
+                <i data-lucide="chevron-down" width="16" height="16" stroke-width="2.4" aria-hidden="true"></i>
+              </span>
+            </button></h3>
+            <div class="faq-answer" aria-hidden="true" inert>
+              <p>O agendamento é feito de forma simples e rápida pelo WhatsApp. Basta entrar em contato com nossa equipe, informar o serviço desejado e escolher o melhor horário para você.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <h3 class="faq-question-heading"><button type="button" class="faq-question" aria-expanded="false">
+              <span>Quais serviços são realizados na Clínica do Bem?</span>
+              <span class="faq-icon">
+                <i data-lucide="chevron-down" width="16" height="16" stroke-width="2.4" aria-hidden="true"></i>
+              </span>
+            </button></h3>
+            <div class="faq-answer" aria-hidden="true" inert>
+              <p>Oferecemos uma ampla gama de serviços voltados à saúde da mulher, incluindo consulta de enfermagem ginecológica, inserção e remoção de DIU e Implanon, preventivo (Papanicolau), investigação de ISTs (sempre com sigilo e acolhimento), troca de sonda vesical, avaliação de feridas crônicas e cuidados com pacientes ostomizadas.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <h3 class="faq-question-heading"><button type="button" class="faq-question" aria-expanded="false">
+              <span>Preciso de encaminhamento médico para a consulta de enfermagem?</span>
+              <span class="faq-icon">
+                <i data-lucide="chevron-down" width="16" height="16" stroke-width="2.4" aria-hidden="true"></i>
+              </span>
+            </button></h3>
+            <div class="faq-answer" aria-hidden="true" inert>
+              <p>Não é necessário encaminhamento médico para a maioria dos nossos serviços. Você pode agendar diretamente pelo WhatsApp e nossa equipe orientará sobre os próximos passos.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <h3 class="faq-question-heading"><button type="button" class="faq-question" aria-expanded="false">
+              <span>Qual é o tempo médio de atendimento?</span>
+              <span class="faq-icon">
+                <i data-lucide="chevron-down" width="16" height="16" stroke-width="2.4" aria-hidden="true"></i>
+              </span>
+            </button></h3>
+            <div class="faq-answer" aria-hidden="true" inert>
+              <p>O tempo de atendimento varia conforme o serviço. As consultas geralmente duram entre 30 e 60 minutos. Procedimentos como inserção de DIU ou Implanon podem ser realizados em tempo reduzido, com todo o cuidado necessário.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <h3 class="faq-question-heading"><button type="button" class="faq-question" aria-expanded="false">
+              <span>Como é o ambiente da clínica?</span>
+              <span class="faq-icon">
+                <i data-lucide="chevron-down" width="16" height="16" stroke-width="2.4" aria-hidden="true"></i>
+              </span>
+            </button></h3>
+            <div class="faq-answer" aria-hidden="true" inert>
+              <p>Nossa clínica foi pensada para oferecer conforto, acolhimento e privacidade. O ambiente é reservado, limpo, organizado e preparado para que você se sinta segura e bem cuidada desde a chegada.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <h3 class="faq-question-heading"><button type="button" class="faq-question" aria-expanded="false">
+              <span>O atendimento aceita convênio?</span>
+              <span class="faq-icon">
+                <i data-lucide="chevron-down" width="16" height="16" stroke-width="2.4" aria-hidden="true"></i>
+              </span>
+            </button></h3>
+            <div class="faq-answer" aria-hidden="true" inert>
+              <p>Entre em contato com nossa equipe pelo WhatsApp para verificar as formas de pagamento disponíveis e se o seu convênio é aceito.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Localização -->
+    <section id="localizacao" class="localizacao">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="badge badge-teal">Localização</span>
+          <h2 class="section-title section-title-center">Prontos para <span class="text-pink">receber você.</span></h2>
+          <p class="section-desc">Visite a Clínica do Bem e conte com um ambiente preparado para oferecer conforto, segurança e um atendimento acolhedor.</p>
+        </div>
+
+        <div class="localizacao-grid">
+          <div class="map-wrap reveal">
+            <iframe
+              title="Localização da Clínica do Bem"
+              src="https://www.google.com/maps?q=Av.+Garibaldi+-+Itaipu+A,+Foz+do+Igua%C3%A7u+-+PR,+85861-550,+Brasil&output=embed"
+              style="border:0; width:100%; height:100%; min-height:380px; display:block;"
+              allowfullscreen
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            ></iframe>
+          </div>
+
+          <div class="info-cards reveal-stagger">
+            <div class="info-card reveal" style="--i:0">
+              <div class="info-icon">
+                <i data-lucide="map-pin" width="22" height="22" stroke-width="1.8" aria-hidden="true"></i>
+              </div>
+              <div>
+                <div class="info-label">Endereço</div>
+                <div class="info-value">Av. Garibaldi - Itaipu A</div>
+                <div class="info-sub">Foz do Iguaçu - PR, 85861-550, Brasil</div>
+              </div>
+            </div>
+            <div class="info-card reveal" style="--i:1">
+              <div class="info-icon">
+                <i data-lucide="phone" width="22" height="22" stroke-width="1.8" aria-hidden="true"></i>
+              </div>
+              <div>
+                <div class="info-label">Telefone / WhatsApp</div>
+                <div class="info-value"><a href="tel:+5545991276438" class="info-link">(45) 99127-6438</a></div>
+                <div class="info-sub">Disponível também pelo WhatsApp</div>
+              </div>
+            </div>
+            <div class="info-card reveal" style="--i:2">
+              <div class="info-icon">
+                <i data-lucide="clock" width="22" height="22" stroke-width="1.8" aria-hidden="true"></i>
+              </div>
+              <div>
+                <div class="info-label">Horário de Atendimento</div>
+                <div class="info-value">Segunda a Sexta: 08h às 18h</div>
+                <div class="info-sub">Sábado: 08h às 12h</div>
+              </div>
+            </div>
+            <div class="info-card reveal" style="--i:3">
+              <div class="info-icon">
+                <i data-lucide="mail" width="22" height="22" stroke-width="1.8" aria-hidden="true"></i>
+              </div>
+              <div>
+                <div class="info-label">E-mail</div>
+                <div class="info-value"><a href="mailto:clinicadobemofc@gmail.com" class="info-link">clinicadobemofc@gmail.com</a></div>
+                <div class="info-sub">Respondemos em até 24 horas</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Final -->
+    <section class="cta-final">
+      <div class="cta-final-inner reveal">
+        <h2 class="section-title">Vamos cuidar da sua saúde?</h2>
+        <p class="section-desc">Um atendimento acolhedor, profissional e pensado para o seu bem-estar está a apenas uma mensagem de distância.</p>
+        <div class="cta-final-actions">
+          <a href="https://wa.me/5545991276438?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Cl%C3%ADnica%20do%20Bem%20e%20gostaria%20de%20agendar%20uma%20consulta.%20Poderia%20me%20passar%20mais%20informa%C3%A7%C3%B5es%3F" data-wa-cta target="_blank" rel="noopener noreferrer" class="btn-pink btn-cta-final">
+            <svg class="icon-brand" width="20" height="20" aria-hidden="true"><use href="#icon-whatsapp" fill="currentColor"/></svg>
+            Agende sua consulta pelo WhatsApp.
+          </a>
+          <a href="tel:+5545991276438" class="btn-outline btn-cta-final">
+            <i data-lucide="phone-call" width="20" height="20" stroke-width="1.8" aria-hidden="true"></i>
+            Prefere ligar? (45) 99127-6438
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-top reveal">
+      <div class="footer-brand">
+        <a href="#inicio" class="logo footer-logo" data-nav-link>
+          <picture>
+            <source type="image/webp" srcset="images/logo-clinica-do-bem.webp">
+            <img src="images/logo-clinica-do-bem.png" alt="Clínica do Bem" class="logo-mark" width="240" height="196" loading="lazy">
+          </picture>
+          <span class="footer-logo-text">Clínica do Bem</span>
+        </a>
+        <p class="footer-desc">Atendimento especializado em saúde da mulher, com acolhimento, segurança e profissionalismo em cada etapa.</p>
+        <div class="footer-social">
+          <a href="https://www.instagram.com/clinicadobemfoz/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="ig">
+            <svg class="icon-brand" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </a>
+          <a href="https://www.facebook.com/people/Cl%C3%ADnica-do-Bem/61566513786615/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="fb">
+            <svg class="icon-brand" width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg>
+          </a>
+          <a href="https://wa.me/5545991276438?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Cl%C3%ADnica%20do%20Bem%20e%20gostaria%20de%20agendar%20uma%20consulta.%20Poderia%20me%20passar%20mais%20informa%C3%A7%C3%B5es%3F" data-wa-cta target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" class="wa">
+            <svg class="icon-brand" width="17" height="17" aria-hidden="true"><use href="#icon-whatsapp" fill="currentColor"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h3>Navegação</h3>
+        <ul>
+          <li><a href="#inicio" data-nav-link>Início</a></li>
+          <li><a href="#sobre" data-nav-link>Sobre</a></li>
+          <li><a href="#servicos" data-nav-link>Serviços</a></li>
+          <li><a href="#depoimentos" data-nav-link>Depoimentos</a></li>
+          <li><a href="#faq" data-nav-link>Dúvidas</a></li>
+          <li><a href="#localizacao" data-nav-link>Localização</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3>Contato</h3>
+        <ul class="footer-contact">
+          <li><i data-lucide="map-pin" width="16" height="16" stroke-width="1.8" aria-hidden="true"></i><span>Av. Garibaldi - Itaipu A, Foz do Iguaçu - PR</span></li>
+          <li><i data-lucide="phone" width="16" height="16" stroke-width="1.8" aria-hidden="true"></i><span><a href="tel:+5545991276438">(45) 99127-6438</a></span></li>
+          <li><i data-lucide="mail" width="16" height="16" stroke-width="1.8" aria-hidden="true"></i><span><a href="mailto:clinicadobemofc@gmail.com">clinicadobemofc@gmail.com</a></span></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h3>Horário</h3>
+        <ul>
+          <li>Segunda a Sexta: 08h às 18h</li>
+          <li>Sábado: 08h às 12h</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom container">
+      <span>© <span id="currentYear"></span> Clínica do Bem. Todos os direitos reservados.</span>
+      <a href="privacidade.html">Política de Privacidade</a>
+    </div>
+  </footer>
+
+  <!-- WhatsApp Floating Button -->
+  <a id="whatsappFloat" href="https://wa.me/5545991276438?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Cl%C3%ADnica%20do%20Bem%20e%20gostaria%20de%20agendar%20uma%20consulta.%20Poderia%20me%20passar%20mais%20informa%C3%A7%C3%B5es%3F" data-wa-cta target="_blank" rel="noopener noreferrer" aria-label="Falar pelo WhatsApp" class="whatsapp-float">
+    <svg class="whatsapp-float-icon icon-brand" width="28" height="28" aria-hidden="true"><use href="#icon-whatsapp" fill="currentColor"/></svg>
+    <span class="whatsapp-float-text">Falar pelo WhatsApp</span>
+  </a>
+
+  <script src="https://unpkg.com/lucide@1.24.0/dist/umd/lucide.js" integrity="sha384-pLX3Fl0m52MclHeHyUdLRg9l8/QW5IiesBUs9Sxxm38xj9lNZW7JqqAfp2/4ARQt" crossorigin="anonymous"></script>
+  <script src="script.js"></script>
+</body>
+</html>
