@@ -19,8 +19,8 @@
   --bg-soft: #F8F9FB;
   /* Fundo único da página — branco levemente aquecido (chroma quase zero,
      inclinado para o rosa da marca, não para um "cream" genérico) usado por
-     toda seção que não seja um dos 3 momentos especiais preservados: Hero
-     (glow atmosférico), CTA intermediária (rosa sólido) e rodapé (escuro). */
+     toda seção que não seja um dos momentos "drenched" preservados: a
+     topbar e a CTA intermediária (ambas rosa sólido) e o rodapé (escuro). */
   --bg-base: #FFFCFA;
   /* Sombra padrão para cards em repouso — antes os cards se apoiavam no
      contraste entre seu branco e o fundo tingido da seção ao redor; com
@@ -35,18 +35,29 @@
      esse gesto é mais lento e mais "solto" que o resto da interface. */
   --ease-reveal: cubic-bezier(0.25, 1, 0.5, 1);
   --duration-reveal: 400ms;
-  /* Easing do preenchimento circular dos botões (ver .btn-pink::before) —
-     não reaproveita --ease-reveal nem --ease porque as duas "disparam"
-     quase todo o movimento logo nos primeiros instantes (ótimo pra um
-     deslize pequeno de 24px ou um scale(0.98), ruim pra um preenchimento
-     do tamanho do botão inteiro: o crescimento ficava rápido demais pra
-     perceber). easeInOutCubic não acelera de cara — o raio cresce devagar
-     desde o primeiro frame, então dá pra acompanhar a bolha se expandindo
-     ao longo de toda a duração, em vez de já nascer quase no tamanho
-     final. Duração maior (0.9s) e curva própria só na entrada; a saída
-     usa --ease (a mesma curva "seca" das outras interações de botão) e
-     fica mais rápida de propósito — entra devagar, sai rápido. */
-  --ease-btn-fill-in: cubic-bezier(0.65, 0, 0.35, 1);
+  /* Altura da topbar fixa acima do header — usada tanto no próprio
+     componente quanto no top: do header (que precisa começar logo abaixo
+     dela) e no padding-top do Hero (que precisa somar as duas faixas fixas
+     em vez de só a altura do header, como antes da topbar existir). */
+  --topbar-h: 36px;
+}
+
+/* ---------- Offset de scroll das âncoras ----------
+   Topbar (36px) + header (88px) = 124px de chrome fixo sobrepondo o topo da
+   página o tempo todo. Sem isso, tanto o scroll suave nativo (clique num
+   link #âncora, com html{scroll-behavior:smooth}) quanto o scrollIntoView()
+   disparado por script.js posicionam o topo da própria seção rente ao topo
+   da viewport — e como esse chrome fixo cobre exatamente essa faixa, ele
+   "corta" o badge/título logo no início do padding-top da seção. Não se
+   aplica a #inicio: o padding-top generoso do Hero (ver .hero) já empurra
+   seu conteúdo bem abaixo do chrome fixo por conta própria. */
+.sobre,
+.servicos,
+.depoimentos,
+.faq,
+.localizacao,
+.cta-final {
+  scroll-margin-top: 124px;
 }
 
 /* ---------- Escala de breakpoints ----------
@@ -171,9 +182,6 @@ button {
 }
 
 .btn-pink {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
   display: inline-flex;
   align-items: center;
   gap: 10px;
@@ -193,12 +201,28 @@ button {
   transform: scale(0.98);
 }
 
+/* Texto curto alternativo para botões cujo rótulo completo ("Agende sua
+   consulta pelo WhatsApp") força quebra de linha em telas estreitas,
+   deixando o botão alto demais — hero e CTA final. Os dois textos já vêm
+   no HTML (nada é injetado via JS/content), só um dos dois fica visível
+   por vez; ícone e demais botões não são afetados. */
+.btn-text-short {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .btn-text-full {
+    display: none;
+  }
+
+  .btn-text-short {
+    display: inline;
+  }
+}
+
 /* Usado dentro da faixa .cta-section (fundo rosa sólido) — mesmo formato e
    gesto de hover dos outros botões, só invertendo as cores. */
 .btn-white {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
   display: inline-flex;
   align-items: center;
   gap: 10px;
@@ -209,77 +233,13 @@ button {
   text-decoration: none;
   border: none;
   box-shadow: none;
-  transition: transform 0.15s ease, color 0.3s var(--ease);
+  transition: transform 0.15s ease;
   background: #ffffff;
   color: var(--pink);
 }
 
 .btn-white:hover {
   transform: scale(0.98);
-  color: #fff;
-}
-
-/* ---------- Preenchimento circular no hover (micro-interação) ----------
-   A cor de repouso de cada botão (rosa, ou branco no .btn-white) nunca
-   muda — o que entra no hover é este ::before por cima, um círculo
-   (clip-path) que nasce raio 0 no ponto exato onde o cursor entrou e se
-   expande até cobrir o botão inteiro, na cor teal da própria identidade
-   (--teal, não uma variante escura inventada). --btn-x/--btn-y são
-   gravados pelo JS (script.js) em mouseenter (ponto de entrada) e
-   mouseleave (ponto de saída) — por isso o preenchimento também recolhe
-   na direção de onde o mouse foi embora, em vez de sempre voltar pro
-   centro.
-   Gatilho é .is-filling, não :hover — de propósito. Se a origem do
-   gradiente ainda dependesse de :hover puro, o navegador já considera
-   :hover ativo no mesmo instante em que o mouseenter dispara, então às
-   vezes a transição pegava --btn-x/--btn-y ainda com o valor da
-   INTERAÇÃO ANTERIOR como ponto de partida (só a posição de destino já
-   vinha atualizada) — o centro do círculo "viajava" da entrada anterior
-   até a nova a cada hover, em vez de nascer raio 0 já no lugar certo.
-   script.js atualiza a variável, força um reflow (leitura de
-   offsetWidth) pra o navegador "commitar" esse valor num frame renderizado
-   de verdade, e só then adiciona .is-filling — garante que raio 0% já
-   nasce na posição nova, sem herdar a antiga.
-   Entrada e saída têm timing propositalmente diferentes: a entrada usa
-   0.9s + --ease-btn-fill-in pra bolha crescer devagar e dar tempo do olho
-   acompanhar; a saída (a regra base, abaixo) usa 0.35s + --ease, mais
-   rápida de propósito — assim que o mouse sai, o botão volta ao normal
-   sem se arrastar.
-   border-radius:inherit no ::before é o que faz o preenchimento respeitar
-   o formato pill quando o círculo já ultrapassou os cantos do botão —
-   sem isso, a 150% de raio ele mostraria os cantos quadrados da própria
-   caixa do ::before por baixo do clip-path circular.
-   isolation:isolate no botão + z-index:-1 no ::before garantem que o
-   preenchimento fique atrás do texto/ícone sem precisar dar z-index
-   neles: dentro do contexto de empilhamento isolado, conteúdo com
-   z-index negativo sempre pinta abaixo do conteúdo em fluxo normal
-   (texto), qualquer que seja a ordem no HTML. */
-.btn-pink::before,
-.btn-white::before,
-.btn-outline::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: var(--teal);
-  clip-path: circle(0% at var(--btn-x, 50%) var(--btn-y, 50%));
-  transition: clip-path 0.35s var(--ease);
-  pointer-events: none;
-  z-index: -1;
-}
-
-.btn-pink.is-filling::before,
-.btn-white.is-filling::before,
-.btn-outline.is-filling::before {
-  clip-path: circle(150% at var(--btn-x, 50%) var(--btn-y, 50%));
-  transition: clip-path 0.9s var(--ease-btn-fill-in);
-}
-
-/* .btn-outline é o único botão com a animação invertida: nasce verde
-   (--teal) em repouso, e o preenchimento do hover é --pink — o oposto
-   dos outros dois botões (rosa em repouso, verde no hover). */
-.btn-outline::before {
-  background: var(--pink);
 }
 
 /* ---------- Foco de teclado ----------
@@ -308,6 +268,10 @@ button {
   position: absolute;
   top: -100px;
   left: 16px;
+  /* Some z-index abaixo é maior que o da topbar (101) de propósito — ao
+     ganhar foco, o link deve aparecer por cima de tudo, mas pousando logo
+     abaixo da topbar (não em top:0) para não sobrepor o próprio contato
+     rápido que ela expõe. */
   z-index: 1000;
   padding: 12px 20px;
   background: var(--pink-dark);
@@ -320,7 +284,7 @@ button {
 }
 
 .skip-link:focus {
-  top: 0;
+  top: var(--topbar-h);
 }
 
 /* ==========================================================================
@@ -374,6 +338,115 @@ button {
 }
 
 /* ==========================================================================
+   Topbar
+   ========================================================================== */
+
+/* Fixa acima do header, sempre visível (não recolhe ao rolar — mantém o
+   comportamento de scroll do header intacto). Fundo no --pink de marca (a
+   mesma cor sólida já usada na faixa de CTA intermediária) com texto/ícones
+   100% brancos — o segundo (e único outro) momento "drenched" da página, ao
+   lado da faixa de CTA — reforça contato rápido logo no topo sem competir
+   com a navbar branca/translúcida logo abaixo dela. */
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 101;
+  height: var(--topbar-h);
+  background: var(--pink);
+  display: flex;
+  align-items: center;
+}
+
+/* --pink-dark (o anel de foco padrão do site) mede baixo demais contra este
+   fundo já rosa — mesma troca pontual para --dark já usada na faixa de CTA
+   e no rodapé escuro, onde o anel padrão também não serve. */
+.topbar :focus-visible {
+  outline-color: var(--dark);
+}
+
+.topbar-inner {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.topbar-contact {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.topbar-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 12.5px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: opacity 0.2s;
+}
+
+.topbar-item:hover {
+  opacity: 0.8;
+}
+
+.topbar-item [data-lucide],
+.topbar-item .icon-brand {
+  color: #fff;
+}
+
+.topbar-sep {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  flex-shrink: 0;
+}
+
+.topbar-hours {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #fff;
+  font-size: 12.5px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.topbar-hours [data-lucide] {
+  color: #fff;
+}
+
+/* Item do WhatsApp é redundante com o botão flutuante já visível no mobile —
+   some primeiro para abrir espaço para o horário, que não se repete em
+   nenhum outro ponto fixo da página. */
+@media (max-width: 768px) {
+  .topbar-item-wa,
+  .topbar-sep {
+    display: none;
+  }
+}
+
+/* Abaixo disso não sobra largura para telefone + horário lado a lado sem
+   quebrar linha — o horário já se repete no rodapé e na seção de
+   Localização, então cede o lugar ao telefone, que é a ação mais imediata. */
+@media (max-width: 480px) {
+  .topbar-hours {
+    display: none;
+  }
+}
+
+/* ==========================================================================
    Header
    ========================================================================== */
 
@@ -386,10 +459,11 @@ button {
    afetar o layout do conteúdo (.header-inner) por cima dele.
    O contraste do texto (--dark / --gray-text) já é alto o bastante contra
    o gradiente quase-branco do Hero, então nenhum ajuste de cor é
-   necessário no estado transparente. */
+   necessário no estado transparente. Fica logo abaixo da topbar (top:
+   var(--topbar-h), não 0) — ver seção Topbar acima. */
 .header {
   position: fixed;
-  top: 0;
+  top: var(--topbar-h);
   left: 0;
   right: 0;
   z-index: 100;
@@ -451,7 +525,9 @@ button {
 .nav-desktop {
   display: flex;
   align-items: center;
-  gap: 32px;
+  /* 24px (gap-md) em vez do antigo 32px — o 7º link (Contato) precisava
+     desse respiro de volta pra não apertar o header em telas de tablet. */
+  gap: 24px;
 }
 
 .nav-desktop a {
@@ -585,9 +661,9 @@ button {
    ========================================================================== */
 
 .hero {
-  /* 188px top = 88px de espaço fixo do header + 100px, o mesmo padding
-     vertical usado em "Sobre" e nas demais seções do site. */
-  padding: 188px 24px 100px;
+  /* 224px top = 88px de espaço fixo do header + 36px da topbar + 100px, o
+     mesmo padding vertical usado em "Sobre" e nas demais seções do site. */
+  padding: 224px 24px 100px;
   /* Mesmo --bg-base do resto da página, liso — os antigos círculos radiais
      rosa/verde nos cantos foram removidos: em vez de se misturar a um
      gradiente de fundo (como antes), sobre o --bg-base liso eles liam como
@@ -863,13 +939,6 @@ button {
   box-shadow: var(--shadow-card-hover);
 }
 
-/* Borda com um toque de rosa (em vez do --border neutro) — o suficiente
-   pra reforçar visualmente que este card carrega um badge, sem mudar
-   sombra, tamanho ou padding em relação aos outros cards do grid. */
-.servico-card-featured {
-  border-color: rgba(253, 100, 152, 0.18);
-}
-
 /* Metade do badge fica pra fora do card (translateY(-50%) a partir de
    top:0) — um "flag" discreto no canto, não um selo grande colado no
    conteúdo. Não soma altura ao card: fica só um contorno de ~13px acima
@@ -1020,6 +1089,15 @@ button {
   letter-spacing: 2px;
 }
 
+/* No mobile o selo fica só com "5.0 no Google • 88 avaliações reais" — as
+   cinco estrelas somem para o badge não brigar por espaço com o resto do
+   cabeçalho da seção numa coluna estreita. */
+@media (max-width: 768px) {
+  .badge-rating-stars {
+    display: none;
+  }
+}
+
 /* ---------- Parede de depoimentos ----------
    Uma única fileira horizontal em loop contínuo, só CSS (sem JS, sem
    arraste, sem paginação), rolando da esquerda para a direita.
@@ -1146,9 +1224,84 @@ button {
   margin-top: 48px;
 }
 
+/* No mobile o loop automático em CSS puro (ver .testimonial-row-track acima)
+   vira um carrossel horizontal manual: sem autoplay, sem transform
+   deslocando o conteúdo sozinho. .testimonial-row passa a ser a área de
+   rolagem (overflow-x:auto — o navegador já trata o arraste por toque
+   nativamente, sem JS) e cada card ganha scroll-snap-align para parar
+   alinhado, como um carrossel de verdade em vez de uma rolagem solta.
+   scroll-snap-type é "mandatory" (não "proximity") e cada card ocupa a
+   largura inteira disponível — calc(100vw - 48px), os mesmos 24px de
+   padding lateral do .container em cada lado, não uma porcentagem do
+   próprio .testimonial-row-track (que tem width:max-content; uma
+   flex-basis em % dentro de um container de largura intrínseca não tem
+   uma base definida pra resolver contra, então cai pra "auto" e o card
+   voltaria a assumir a largura do próprio conteúdo). O resultado é um
+   card por vez sempre alinhado às bordas do container, sem nenhuma
+   lasca do próximo card sobrando cortada na borda direita da viewport.
+   O segundo conjunto de cards (article[aria-hidden="true"]) só existia
+   para fechar o loop automático sem salto visível — sem loop, ele
+   deixaria de fazer sentido e o visitante encontraria os mesmos
+   depoimentos duas vezes ao arrastar até o fim, então some no mobile. */
+@media (max-width: 768px) {
+  .testimonial-row-track {
+    animation: none;
+  }
+
+  .testimonial-row {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+  }
+
+  .testimonial-row-track article[aria-hidden="true"] {
+    display: none;
+  }
+
+  .testimonial-card {
+    flex: 0 0 calc(100vw - 48px);
+    width: calc(100vw - 48px);
+    scroll-snap-align: start;
+  }
+}
+
 @media (max-width: 640px) {
   .testimonial-row-track {
     gap: 16px;
+  }
+}
+
+/* ---------- Indicador de página (mobile) ----------
+   Só existe visualmente no mobile — no desktop/tablet a parede continua em
+   loop automático, sem conceito de "página atual" pra indicar. Os pontos já
+   nascem no HTML (6, um por depoimento real) e script.js só alterna qual
+   deles carrega .is-active conforme o scroll; nenhum ponto é criado via JS. */
+.testimonial-dots {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.testimonial-dot {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: var(--pink-tint);
+  transition: background 0.25s var(--ease), transform 0.25s var(--ease);
+}
+
+.testimonial-dot.is-active {
+  background: var(--pink);
+  transform: scale(1.25);
+}
+
+@media (max-width: 768px) {
+  .testimonial-dots {
+    display: flex;
   }
 }
 
@@ -1391,9 +1544,6 @@ button {
    contraste mais baixo contra o --teal claro em troca do texto nunca
    "piscar" entre cores. */
 .btn-outline {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
   display: inline-flex;
   align-items: center;
   gap: 10px;
@@ -1452,10 +1602,10 @@ button {
 }
 
 .footer-desc {
-  font-size: 14px;
+  font-size: 14.5px;
   color: rgba(255, 255, 255, 0.5);
   max-width: 300px;
-  line-height: 1.7;
+  line-height: 1.5;
   margin-bottom: 20px;
 }
 
@@ -1674,7 +1824,8 @@ button {
    espaçamento fora da escala documentada em DESIGN.md. */
 @media (max-width: 768px) {
   .hero {
-    padding: 128px 24px 80px;
+    /* 164px = 88px do header + 36px da topbar + 40px de respiro (gap-lg). */
+    padding: 164px 24px 80px;
   }
 
   .sobre,

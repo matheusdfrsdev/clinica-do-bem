@@ -51,8 +51,8 @@ Keyboard navigation (skip link, visible focus ring, FAQ accordion managed via `a
 ## Site Structure
 
 Two static HTML pages, no client-side routing, no build step:
-- **`index.html`** — the single-scroll marketing page. Sections in order: fixed header/nav → Hero (`#inicio`) → Sobre (`#sobre`) → Serviços (`#servicos`, two groups: "Saúde da Mulher" and "Cuidados de Enfermagem Geral") → mid-page solid-pink CTA band → Depoimentos (`#depoimentos`, testimonial wall) → FAQ (`#faq`) → Localização (`#localizacao`, map + info cards) → CTA Final → Footer. A floating WhatsApp button and an off-screen skip-link sit outside this section flow.
-- **`privacidade.html`** — standalone privacy-policy page, reachable only from the footer link (not in main nav), `noindex`ed. **Status: internal draft, not legally reviewed** — see "Known placeholders" below.
+- **`index.html`** — the single-scroll marketing page. A fixed topbar (quick phone/WhatsApp/hours contact) sits above the fixed header/nav; below them, sections run: Hero (`#inicio`) → Sobre (`#sobre`) → Serviços (`#servicos`, two groups: "Saúde da Mulher" and "Cuidados de Enfermagem Geral") → mid-page solid-pink CTA band → Depoimentos (`#depoimentos`, testimonial wall) → FAQ (`#faq`) → Localização (`#localizacao`, map + info cards) → CTA Final, which doubles as the `#contato` anchor the nav's "Contato" link scrolls to (there's no separate contact section/form) → Footer. A floating WhatsApp button and an off-screen skip-link sit outside this section flow.
+- **`privacidade.html`** — standalone privacy-policy page, reachable only from the footer link (not in main nav), `noindex`ed. Reads as finished — no visible draft notice or `[A DEFINIR]` placeholders — but see "Known placeholders" below for what that appearance doesn't cover.
 
 ## Technology & Implementation
 
@@ -60,12 +60,12 @@ Two static HTML pages, no client-side routing, no build step:
 - Fonts: Plus Jakarta Sans (headings) + Manrope (body) from Google Fonts, loaded via `<link rel="preload">` plus a `media="print" onload="this.media='all'"` swap so the stylesheet doesn't block first render; `<noscript>` fallback for JS-disabled visitors.
 - Icons: Lucide (`unpkg.com/lucide@1.24.0`, loaded via `<script>` + `data-lucide` attributes, initialized by `lucide.createIcons()` in `script.js`), plus one hand-inlined SVG `<symbol>` sprite for the WhatsApp glyph, reused across every WhatsApp CTA instance instead of duplicating the path.
 - Images: the logo and both photos ship as a JPEG/PNG original plus a WEBP variant, served through `<picture>`/`<source>`.
-- All interactivity — scroll header, mobile menu, scroll reveal, scrollspy, button cursor-fill microinteraction, FAQ accordion, footer year — lives in one file, `script.js`.
+- All interactivity — scroll header, mobile menu, scroll reveal, scrollspy, FAQ accordion, footer year — lives in one file, `script.js`.
 
 ## SEO
 
 - `<title>`, meta description, canonical URL, Open Graph, and Twitter Card tags on `index.html`.
-- JSON-LD `MedicalClinic` structured data: name, image, url, phone, e-mail, address, opening hours, social profiles (`sameAs`).
+- JSON-LD `MedicalClinic` structured data: trade name plus `legalName`/`taxID` (Clínica do Bem Foz Enfermagem Especializada LTDA, CNPJ 59.997.893/0001-34), image, url, phone, e-mail, address, opening hours, social profiles (`sameAs`).
 - `sitemap.xml` — one entry, the homepage; `privacidade.html` is deliberately excluded (see noindex below).
 - `robots.txt` — allows all crawling, points to the sitemap.
 - `privacidade.html` carries `<meta name="robots" content="noindex">` — intentional, since it's an internal draft (see "Known placeholders").
@@ -79,17 +79,17 @@ Two static HTML pages, no client-side routing, no build step:
 
 ## Features Implemented
 
-- WhatsApp deep-link CTA (pre-filled message) repeated in the header, mobile menu, hero, services, mid-page CTA band, testimonials, footer, and final CTA, plus a floating button — with a `tel:` fallback CTA alongside it in the final CTA section.
+- WhatsApp deep-link CTA (pre-filled message) repeated in the topbar, header, mobile menu, hero, services, mid-page CTA band, testimonials, footer, and final CTA, plus a floating button — with a `tel:` fallback CTA alongside it in the topbar and the final CTA section.
+- Fixed topbar above the header with quick-contact info (phone, WhatsApp, hours) — always visible, doesn't hide on scroll; sheds content progressively on narrow viewports (see DESIGN.md's Topbar entry).
 - FAQ accordion (single item open at a time, animates to real content height, `aria-hidden`/`inert` on closed answers).
-- Auto-scrolling testimonial wall (pure CSS loop, pauses on hover, replaced by a static frame under reduced motion).
+- Testimonial wall: an auto-scrolling pure-CSS loop on desktop/tablet (pauses on hover, replaced by a static frame under reduced motion); on mobile it's a different mechanism — the loop is off entirely and the row becomes a manual, native swipe carousel, one full-width card per page (mandatory scroll-snap, no autoplay), with six pagination dots below it that track the active card and double as tap-to-jump shortcuts.
 - Scrollspy navigation — the active nav link tracks whichever section is centered in the viewport, matching the click behavior exactly.
 - Mobile hamburger menu with icon-morph toggle; the WhatsApp float button auto-hides while it's open.
-- Cursor-origin circular fill microinteraction on all three button variants.
 - Scroll-reveal entrance animation on every major content block, staggered within grids.
 
 ## Known Placeholders — Don't Treat as Finished Without Checking
 
-- **`privacidade.html` is an internal draft**, flagged in-page as "Rascunho para revisão interna." Several fields are marked `[A DEFINIR]` (data-retention period, DPO contact, last-updated date) pending legal review. Don't link it more prominently or remove the draft notice until those are resolved with the client.
+- **`privacidade.html` reads as finished but has not been reviewed by a lawyer.** At the client's request the visible draft notice and every `[A DEFINIR]` placeholder were removed: company identification (razão social Clínica do Bem Foz Enfermagem Especializada LTDA, CNPJ 59.997.893/0001-34) and the two responsible nurses (Marcus Vinícius Gomes de Farias, COREN 706.207; Charlene dos Santos Moreira, COREN 662.943) are filled in, the data-retention section now states a definitive 20-year period, and the page carries a real "last updated" date. The DPO line was removed outright rather than filled in — no Encarregado de Dados has been officially designated; don't reintroduce a DPO placeholder without a real name. None of this content has been confirmed by the clinic's legal counsel — the retention-period wording and LGPD framing were drafted by AI assistance. The page is publication-ready in *appearance* only; flag this if legal risk on this page comes up later.
 - **The "Ver todas as avaliações no Google" link points to a Google Maps search**, not the clinic's verified Google Business Profile — a documented stand-in (see the comment above it in `index.html`) until the direct profile URL is available.
 
 ## Deliberate Decisions to Preserve
@@ -98,3 +98,4 @@ Full rationale lives in DESIGN.md; this is the maintenance-facing summary.
 - Booking flow is WhatsApp-first by design — there is no contact form, and none is planned. Don't add one without revisiting the Conversion & proof strategy above.
 - Brand pink/teal are used at full saturation everywhere they carry visible content, even where that drops color contrast below WCAG AA — an explicit, client-confirmed choice prioritizing brand fidelity over that specific compliance target (DESIGN.md's Full-Saturation Rule). Don't "fix" this toward darker AA-safe variants.
 - `.btn-outline` (the "Prefere ligar?" button) is intentionally teal-at-rest / pink-on-hover with white text at rest — a deliberate, twice-confirmed client inversion of the other two buttons. Don't normalize it to match `.btn-pink`.
+- The clinic treats minor patients. `privacidade.html` §10 documents the LGPD Art. 14 handling (guardian consent) this requires — keep that section in sync if the clinic's intake policy for minors changes.

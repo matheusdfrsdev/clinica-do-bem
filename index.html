@@ -41,6 +41,8 @@
     "@context": "https://schema.org",
     "@type": "MedicalClinic",
     "name": "Clínica do Bem",
+    "legalName": "Clínica do Bem Foz Enfermagem Especializada LTDA",
+    "taxID": "59.997.893/0001-34",
     "image": "https://www.clinicadobemfoz.com.br/images/hero-doutora.jpg",
     "url": "https://www.clinicadobemfoz.com.br/",
     "telephone": "+5545991276438",
@@ -83,6 +85,27 @@
 
   <a href="#main" class="skip-link">Pular para o conteúdo</a>
 
+  <!-- Topbar -->
+  <div id="topbar" class="topbar">
+    <div class="topbar-inner">
+      <div class="topbar-contact">
+        <a href="tel:+5545991276438" class="topbar-item">
+          <i data-lucide="phone" width="13" height="13" stroke-width="2" aria-hidden="true"></i>
+          <span>(45) 99127-6438</span>
+        </a>
+        <span class="topbar-sep" aria-hidden="true"></span>
+        <a href="https://wa.me/5545991276438?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Cl%C3%ADnica%20do%20Bem%20e%20gostaria%20de%20agendar%20uma%20consulta.%20Poderia%20me%20passar%20mais%20informa%C3%A7%C3%B5es%3F" data-wa-cta target="_blank" rel="noopener noreferrer" class="topbar-item topbar-item-wa">
+          <svg class="icon-brand" width="13" height="13" aria-hidden="true"><use href="#icon-whatsapp" fill="currentColor"/></svg>
+          <span>WhatsApp</span>
+        </a>
+      </div>
+      <div class="topbar-hours">
+        <i data-lucide="clock" width="13" height="13" stroke-width="2" aria-hidden="true"></i>
+        <span>Seg&ndash;Sex 8h &agrave;s 18h &bull; S&aacute;b 8h &agrave;s 12h</span>
+      </div>
+    </div>
+  </div>
+
   <!-- Header -->
   <header id="header" class="header">
     <div class="header-inner">
@@ -101,6 +124,7 @@
         <a href="#depoimentos" data-nav-link>Depoimentos</a>
         <a href="#faq" data-nav-link>Dúvidas</a>
         <a href="#localizacao" data-nav-link>Localização</a>
+        <a href="#contato" data-nav-link>Contato</a>
       </nav>
       <a href="https://wa.me/5545991276438?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Cl%C3%ADnica%20do%20Bem%20e%20gostaria%20de%20agendar%20uma%20consulta.%20Poderia%20me%20passar%20mais%20informa%C3%A7%C3%B5es%3F" data-wa-cta target="_blank" rel="noopener noreferrer" class="btn-pink btn-nav">
           <svg class="icon-brand" width="16" height="16" aria-hidden="true"><use href="#icon-whatsapp" fill="currentColor"/></svg>
@@ -121,6 +145,7 @@
       <a href="#depoimentos" data-nav-link>Depoimentos</a>
       <a href="#faq" data-nav-link>Dúvidas</a>
       <a href="#localizacao" data-nav-link>Localização</a>
+      <a href="#contato" data-nav-link>Contato</a>
       <a href="https://wa.me/5545991276438?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Cl%C3%ADnica%20do%20Bem%20e%20gostaria%20de%20agendar%20uma%20consulta.%20Poderia%20me%20passar%20mais%20informa%C3%A7%C3%B5es%3F" data-wa-cta target="_blank" rel="noopener noreferrer" class="btn-pink btn-mobile-cta">
         <svg class="icon-brand" width="16" height="16" aria-hidden="true"><use href="#icon-whatsapp" fill="currentColor"/></svg>
         Agendar Consulta
@@ -166,7 +191,7 @@
 
           <a href="https://wa.me/5545991276438?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Cl%C3%ADnica%20do%20Bem%20e%20gostaria%20de%20agendar%20uma%20consulta.%20Poderia%20me%20passar%20mais%20informa%C3%A7%C3%B5es%3F" data-wa-cta target="_blank" rel="noopener noreferrer" class="btn-pink btn-hero">
             <svg class="icon-brand" width="20" height="20" aria-hidden="true"><use href="#icon-whatsapp" fill="currentColor"/></svg>
-            Agende sua consulta pelo WhatsApp
+            <span class="btn-text-full">Agende sua consulta pelo WhatsApp</span><span class="btn-text-short">Agendar consulta</span>
           </a>
         </div>
 
@@ -496,6 +521,19 @@
               </article>
             </div>
           </div>
+
+          <!-- Indicador de página do carrossel — só visível no mobile (ver
+               style.css), onde a parede vira um carrossel de 1 card por vez.
+               script.js mantém o ponto ativo em sincronia com o scroll manual
+               e permite tocar num ponto para pular direto para aquele card. -->
+          <div class="testimonial-dots" role="group" aria-label="Selecionar depoimento">
+            <button type="button" class="testimonial-dot is-active" aria-current="true" aria-label="Ir para o depoimento de Maria"></button>
+            <button type="button" class="testimonial-dot" aria-label="Ir para o depoimento de Laís"></button>
+            <button type="button" class="testimonial-dot" aria-label="Ir para o depoimento de Hellen"></button>
+            <button type="button" class="testimonial-dot" aria-label="Ir para o depoimento de Juliane"></button>
+            <button type="button" class="testimonial-dot" aria-label="Ir para o depoimento de Alcione"></button>
+            <button type="button" class="testimonial-dot" aria-label="Ir para o depoimento de Carla"></button>
+          </div>
         </div>
 
         <div class="depoimentos-cta">
@@ -666,14 +704,14 @@
     </section>
 
     <!-- CTA Final -->
-    <section class="cta-final">
+    <section id="contato" class="cta-final">
       <div class="cta-final-inner reveal">
         <h2 class="section-title">Vamos cuidar da sua saúde?</h2>
         <p class="section-desc">Um atendimento acolhedor, profissional e pensado para o seu bem-estar está a apenas uma mensagem de distância.</p>
         <div class="cta-final-actions">
           <a href="https://wa.me/5545991276438?text=Ol%C3%A1!%20Vim%20pelo%20site%20da%20Cl%C3%ADnica%20do%20Bem%20e%20gostaria%20de%20agendar%20uma%20consulta.%20Poderia%20me%20passar%20mais%20informa%C3%A7%C3%B5es%3F" data-wa-cta target="_blank" rel="noopener noreferrer" class="btn-pink btn-cta-final">
             <svg class="icon-brand" width="20" height="20" aria-hidden="true"><use href="#icon-whatsapp" fill="currentColor"/></svg>
-            Agende sua consulta pelo WhatsApp.
+            <span class="btn-text-full">Agende sua consulta pelo WhatsApp.</span><span class="btn-text-short">Agendar consulta</span>
           </a>
           <a href="tel:+5545991276438" class="btn-outline btn-cta-final">
             <i data-lucide="phone-call" width="20" height="20" stroke-width="1.8" aria-hidden="true"></i>
@@ -718,6 +756,7 @@
           <li><a href="#depoimentos" data-nav-link>Depoimentos</a></li>
           <li><a href="#faq" data-nav-link>Dúvidas</a></li>
           <li><a href="#localizacao" data-nav-link>Localização</a></li>
+          <li><a href="#contato" data-nav-link>Contato</a></li>
         </ul>
       </div>
 
@@ -740,7 +779,7 @@
     </div>
 
     <div class="footer-bottom container">
-      <span>© <span id="currentYear"></span> Clínica do Bem. Todos os direitos reservados.</span>
+      <span>© <span id="currentYear"></span> Clínica do Bem Foz Enfermagem Especializada LTDA — CNPJ 59.997.893/0001-34. Todos os direitos reservados.</span>
       <a href="privacidade.html">Política de Privacidade</a>
     </div>
   </footer>

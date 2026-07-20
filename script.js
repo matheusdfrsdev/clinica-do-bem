@@ -34,42 +34,6 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('scroll', handleScroll, { passive: true });
   handleScroll(); // estado inicial
 
-  /* ---------- Preenchimento circular no hover dos botões ----------
-     --btn-x/--btn-y (lidos pelo clip-path em style.css) gravam o ponto
-     exato onde o cursor entrou ou saiu do botão, em % relativo à própria
-     caixa do botão — não ao viewport. mouseenter grava a origem do
-     preenchimento; mouseleave grava pra onde ele deve recolher, então o
-     círculo sempre nasce/desaparece embaixo do cursor, nunca do centro
-     fixo do botão. mouseenter/mouseleave não borbulham, então cada botão
-     precisa do próprio listener (não dá pra delegar num ancestral).
-
-     O CSS não usa :hover pra disparar o crescimento do círculo (usa a
-     classe .is-filling, adicionada abaixo) por causa de um bug de timing:
-     o navegador já considera :hover ativo no mesmo instante em que o
-     mouseenter dispara, então a transição às vezes pegava a variável
-     --btn-x/--btn-y ainda com o valor da interação ANTERIOR como ponto de
-     partida — o centro do círculo "viajava" da entrada antiga até a nova
-     a cada hover, em vez de já nascer no lugar certo. Forçar um reflow
-     (a leitura de offsetWidth, que precisa recalcular layout) entre
-     atualizar a variável e adicionar a classe garante que o navegador
-     "commita" a posição nova num frame renderizado de verdade antes da
-     transição começar. */
-  function fillButtonFrom(e, isFilling) {
-    const btn = e.currentTarget;
-    const rect = btn.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 100;
-    const y = ((e.clientY - rect.top) / rect.height) * 100;
-    btn.style.setProperty('--btn-x', `${x}%`);
-    btn.style.setProperty('--btn-y', `${y}%`);
-    void btn.offsetWidth; // força o reflow — sem isso a linha abaixo corre o risco de disparar a transição antes do navegador commitar a posição nova
-    btn.classList.toggle('is-filling', isFilling);
-  }
-
-  document.querySelectorAll('.btn-pink, .btn-white, .btn-outline').forEach((btn) => {
-    btn.addEventListener('mouseenter', (e) => fillButtonFrom(e, true));
-    btn.addEventListener('mouseleave', (e) => fillButtonFrom(e, false));
-  });
-
   /* ---------- Scroll reveal ----------
      Cada elemento .reveal ganha .is-visible (ver style.css) na primeira vez
      que cruza 15% de área visível, e para de ser observado em seguida — a
@@ -179,6 +143,77 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
+
+  /* ---------- Indicador de página dos depoimentos (mobile) ----------
+     Só tem efeito visual no mobile (ver style.css: .testimonial-dots só
+     aparece em telas ≤768px, onde a parede de depoimentos vira um
+     carrossel de 1 card por vez). No desktop/tablet .testimonial-row não
+     tem overflow-x:auto, então o evento de scroll abaixo simplesmente
+     nunca dispara ali — o mesmo código serve os dois casos sem precisar
+     checar a largura da tela.
+     Nenhum ponto é criado dinamicamente: os 6 já existem no HTML, um por
+     depoimento real (a cópia aria-hidden usada só pelo loop do desktop já
+     é ignorada aqui via :not([aria-hidden="true"])). O ponto ativo é o
+     card cujo início está mais próximo do início visível da fileira —
+     comparação por getBoundingClientRect() em vez de scrollLeft/largura
+     fixa, pra não depender de nenhum cálculo de índice que quebraria se o
+     gap ou a largura do card mudarem. Clicar num ponto rola até o card
+     correspondente pelo mesmo tipo de cálculo, na direção contrária. */
+  const testimonialRow = document.querySelector('.testimonial-row');
+  const testimonialDots = document.querySelectorAll('.testimonial-dot');
+  const testimonialCards = testimonialRow
+    ? Array.from(testimonialRow.querySelectorAll('.testimonial-card:not([aria-hidden="true"])'))
+    : [];
+
+  if (testimonialRow && testimonialDots.length === testimonialCards.length) {
+    function setActiveTestimonialDot(index) {
+      testimonialDots.forEach((dot, i) => {
+        const isActive = i === index;
+        dot.classList.toggle('is-active', isActive);
+        if (isActive) {
+          dot.setAttribute('aria-current', 'true');
+        } else {
+          dot.removeAttribute('aria-current');
+        }
+      });
+    }
+
+    let tickingTestimonialScroll = false;
+    function updateActiveTestimonialDot() {
+      const rowLeft = testimonialRow.getBoundingClientRect().left;
+      let closestIndex = 0;
+      let closestDistance = Infinity;
+      testimonialCards.forEach((card, i) => {
+        const distance = Math.abs(card.getBoundingClientRect().left - rowLeft);
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closestIndex = i;
+        }
+      });
+      setActiveTestimonialDot(closestIndex);
+    }
+
+    testimonialRow.addEventListener('scroll', () => {
+      if (tickingTestimonialScroll) return;
+      tickingTestimonialScroll = true;
+      requestAnimationFrame(() => {
+        updateActiveTestimonialDot();
+        tickingTestimonialScroll = false;
+      });
+    }, { passive: true });
+
+    testimonialDots.forEach((dot, i) => {
+      dot.addEventListener('click', () => {
+        const card = testimonialCards[i];
+        if (!card) return;
+        const delta = card.getBoundingClientRect().left - testimonialRow.getBoundingClientRect().left;
+        testimonialRow.scrollTo({
+          left: testimonialRow.scrollLeft + delta,
+          behavior: prefersReducedMotion ? 'auto' : 'smooth',
+        });
+      });
+    });
+  }
 
   /* ---------- Accordion do FAQ ----------
      O max-height alvo é a altura real do conteúdo (scrollHeight), não um
